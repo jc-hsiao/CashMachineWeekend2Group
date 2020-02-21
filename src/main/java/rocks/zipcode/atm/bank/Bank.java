@@ -1,3 +1,4 @@
+//fake merge test
 package rocks.zipcode.atm.bank;
 
 import rocks.zipcode.atm.ActionResult;
