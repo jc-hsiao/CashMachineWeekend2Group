@@ -47,7 +47,6 @@ public class Bank {
     public ActionResult<AccountData> withdraw(AccountData accountData, int amount) {
         Account account = accounts.get(accountData.getId());
         boolean ok = account.withdraw(amount);
-
         if (ok) {
             return ActionResult.success(account.getAccountData());
         } else {
