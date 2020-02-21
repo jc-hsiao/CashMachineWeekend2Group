@@ -35,6 +35,8 @@ public final class AccountData {
         return balance;
     }
 
+    public int getPin() {return pin;}
+
     @Override
     public String toString() {
         return "Account id: " + id + '\n' +
