@@ -10,9 +10,10 @@ import java.util.function.Supplier;
  * @author ZipCodeWilmington
  */
 public class CashMachine {
-
+    private String errorMessage = "";
     private final Bank bank;
     private AccountData accountData = null;
+    private String specialMessage = "";
 
     public CashMachine(Bank bank) {
         this.bank = bank;
@@ -22,9 +23,9 @@ public class CashMachine {
         accountData = data;
     };
 
-    public void login(int id) {
+    public void login(int id, String pin) {
         tryCall(
-                () -> bank.getAccountById(id),
+                () -> bank.getAccountById(id,pin),
                 update
         );
     }
@@ -53,9 +54,13 @@ public class CashMachine {
         }
     }
 
+    public String getErrorMessage(){
+        return this.errorMessage;
+    }
+
     @Override
     public String toString() {
-        return accountData != null ? accountData.toString() : "Try account 1000 or 2000 and click submit.";
+        return accountData != null ? accountData.toString() : "Try account 1 or 2 and click submit.";
     }
 
     private <T> void tryCall(Supplier<ActionResult<T> > action, Consumer<T> postAction) {
@@ -63,13 +68,17 @@ public class CashMachine {
             ActionResult<T> result = action.get();
             if (result.isSuccess()) {
                 T data = result.getData();
+                specialMessage = result.getSpecialMessage();
+                errorMessage = result.getErrorMessage();
                 postAction.accept(data);
+
             } else {
                 String errorMessage = result.getErrorMessage();
                 throw new RuntimeException(errorMessage);
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+            errorMessage = e.getMessage();
         }
     }
 }
