@@ -35,6 +35,12 @@ GridPane{
     -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
 
 }
+.button:disabled{
+    -fx-background-color: darkgrey;
+    -fx-text-fill: grey;
+    -fx-opacity: 1.0 ;
+}
+
 
 .label{
     -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
@@ -55,7 +61,7 @@ GridPane{
 #outBT{
     -fx-underline: true;
     -fx-font: 14px "Trebuchet MS", Helvetica, sans-serif;
-    -fx-text-fill: firebrick;
+    -fx-text-fill: black;
     -fx-font-weight: bold;
     -fx-background-color: rgba(255,255,255,0.0);
 }

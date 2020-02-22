@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
@@ -71,6 +73,7 @@ public class CashMachineApp extends Application {
     VBox vbox = new VBox(10);
     GridPane loginGrid = new GridPane();
     GridPane mainGrid = new GridPane();
+
 
     private void setUpUI(){
         vbox.setPrefSize(500, 500);
@@ -140,6 +143,16 @@ public class CashMachineApp extends Application {
         HBox warningHBox = new HBox(10);
         Text oops2 = new Text();
         Stage moneyStage = new Stage();
+        VBox moneyVBox = new VBox();
+        TextField moneyField = new TextField();
+
+        Image insertImg = new Image("insert.gif");
+        Image withdrawImg = new Image("withdraw.gif");
+        Image badImg = new Image("nope.jpg");
+
+        Button doneInsert = new Button("Deposit");
+        Button doneWithdraw = new Button("Withdraw");
+
 
         greetTxt.setId("greetTxt");
         balanceTxt.setId("balanceTxt");
@@ -168,30 +181,52 @@ public class CashMachineApp extends Application {
 
         //pop up
         Popup popup = new Popup();
-        moneyStage.setTitle("Please insert Money");
-        VBox moneyVBox = new VBox();
         moneyVBox.setId("moneyVBox");
-        TextField moneyField = new TextField();
         moneyField.setId("moneyField");
-        moneyVBox.getChildren().add(moneyField);
+        moneyField.setPrefWidth(220);
+        doneInsert.setPrefSize(220,30);
+        doneWithdraw.setPrefSize(220,30);
         Scene moneyScene = new Scene(moneyVBox);
         moneyScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
-        //Handles clicks of the money buttons
         withdrawBT.setOnAction(e -> {
+            oops2.setText("");
             if (!popup.isShowing()){
+                moneyVBox.getChildren().clear();
+                moneyStage.setTitle("Please Enter Amount");
+                ImageView imageView1 = new ImageView(withdrawImg);
+                moneyVBox.getChildren().addAll(imageView1,moneyField,doneWithdraw);
                 moneyStage.setScene(moneyScene);
                 moneyStage.show();
                 popup.show(moneyStage);
             } else
                 popup.hide();
         });
-        depositBT.setOnAction(e -> {
-            //oops2.setText("Oops message! asj lasjdl aksjd a!");
+        doneWithdraw.setOnAction(e -> {
+            oops2.setText("You don't have enough money!");
+            moneyStage.close();
+
         });
 
 
+        depositBT.setOnAction(e -> {
+            oops2.setText("");
+            if (!popup.isShowing()){
+                moneyVBox.getChildren().clear();
+                moneyStage.setTitle("Please Insert Money");
+                ImageView imageView2 = new ImageView(insertImg);
+                moneyVBox.getChildren().addAll(imageView2,moneyField,doneInsert);
+                moneyStage.setScene(moneyScene);
+                moneyStage.show();
+                popup.show(moneyStage);
+            } else
+                popup.hide();
+        });
+        doneInsert.setOnAction(e -> {
 
+            //this will close the window
+            moneyStage.close();
+        });
 
 
 
