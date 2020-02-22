@@ -1,14 +1,15 @@
 package rocks.zipcode.atm;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import rocks.zipcode.atm.bank.Bank;
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -118,7 +119,6 @@ public class CashMachineApp extends Application {
         loginGrid.add(logInTxt2,0,2);
         loginGrid.add(field2,1,2);
         loginGrid.add(BTBox, 1,3);
-
     }
 
 
@@ -126,49 +126,90 @@ public class CashMachineApp extends Application {
         mainGrid.setId("grid");
         mainGrid.setAlignment(Pos.CENTER);
         mainGrid.setHgap(10);
-        mainGrid.setVgap(10);
+        mainGrid.setVgap(5);
         mainGrid.setPadding(new Insets(40,20,40,20));
 
         Text greetTxt = new Text("Hi, regular user");
-        Text balanceTxt = new Text("Your balance is 1000");
-        TextField numField = new TextField();
+        Text balanceTxt = new Text("Your current balance is: ");
+        Label balanceNum = new Label("$1000.00");
         Button withdrawBT= new Button("Withdraw");
         Button depositBT= new Button("Deposit");
         Button logOutBT= new Button("Log Out");
-        HBox BTBox2 = new HBox(10);
+        HBox buttonHBox = new HBox(10);
+        HBox logOutHBox = new HBox(10);
+        HBox warningHBox = new HBox(10);
         Text oops2 = new Text();
+        Stage moneyStage = new Stage();
 
-        numField.setPrefSize(300,50);
-        numField.setAlignment(Pos.CENTER_RIGHT);
-        numField.setId("numField");
+        greetTxt.setId("greetTxt");
+        balanceTxt.setId("balanceTxt");
+
+        balanceNum.setPrefSize(300,50);
+        balanceNum.setAlignment(Pos.CENTER_RIGHT);
+        balanceNum.setId("balanceNum");
 
         withdrawBT.setPrefSize(90,50);
         depositBT.setPrefSize(90,50);
+
         withdrawBT.setId("wBT");
         depositBT.setId("dBT");
         logOutBT.setId("outBT");
         logOutBT.setOnAction(e -> {
+            oops2.setText("");
             vbox.getChildren().clear();
             vbox.getChildren().add(loginGrid);
         });
 
-        BTBox2.getChildren().add(logOutBT);
-        BTBox2.setAlignment(Pos.CENTER_RIGHT);
+        buttonHBox.getChildren().add(withdrawBT);
+        buttonHBox.getChildren().add(depositBT);
+        buttonHBox.setAlignment(Pos.CENTER_RIGHT);
+        buttonHBox.setPadding(new Insets(10,0, 10,0));
         oops2.setId("warning");
+
+        //pop up
+        Popup popup = new Popup();
+        moneyStage.setTitle("Please insert Money");
+        VBox moneyVBox = new VBox();
+        moneyVBox.setId("moneyVBox");
+        TextField moneyField = new TextField();
+        moneyField.setId("moneyField");
+        moneyVBox.getChildren().add(moneyField);
+        Scene moneyScene = new Scene(moneyVBox);
+        moneyScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+
+        //Handles clicks of the money buttons
         withdrawBT.setOnAction(e -> {
-            //
+            if (!popup.isShowing()){
+                moneyStage.setScene(moneyScene);
+                moneyStage.show();
+                popup.show(moneyStage);
+            } else
+                popup.hide();
         });
         depositBT.setOnAction(e -> {
-            oops2.setText("Oops message!\n asj lasjdl aksjd a");
+            //oops2.setText("Oops message! asj lasjdl aksjd a!");
         });
 
+
+
+
+
+
+        logOutHBox.setAlignment(Pos.CENTER_RIGHT);
+        logOutHBox.getChildren().add(logOutBT);
+        warningHBox.setAlignment(Pos.CENTER_RIGHT);
+        warningHBox.setPadding(new Insets(0,5,0,0));
+        warningHBox.getChildren().add(oops2);
+
+
         mainGrid.add(greetTxt,0,0);
-        mainGrid.add(balanceTxt,0,1);
-        mainGrid.add(numField,0,3,3,1);
-        mainGrid.add(oops2,0,4);
-        mainGrid.add(withdrawBT,1,4);
-        mainGrid.add(depositBT,2,4);
-        mainGrid.add(BTBox2,2,6);
+        mainGrid.add(balanceTxt,0,2);
+        mainGrid.add(balanceNum,0,4);
+        mainGrid.add(buttonHBox,0,5);
+        mainGrid.add(warningHBox,0,6);
+        mainGrid.add(logOutHBox,0,7);
+
+        //mainGrid.setGridLinesVisible(true);
     }
 
 
