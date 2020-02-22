@@ -1,5 +1,11 @@
 package rocks.zipcode.atm;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import rocks.zipcode.atm.bank.Bank;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -7,16 +13,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.layout.FlowPane;
 
 /**
  * @author ZipCodeWilmington
  */
 public class CashMachineApp extends Application {
 
-    private TextField field = new TextField();
     private CashMachine cashMachine = new CashMachine(new Bank());
 
     private Parent createContent() {
@@ -66,9 +69,50 @@ public class CashMachineApp extends Application {
         return vbox;
     }
 
+
+    private TextField field = new TextField();
+    private TextField field2 = new TextField();
+
+    private Parent createPage() {
+        VBox vbox = new VBox(10);
+        vbox.setPrefSize(600, 600);
+        vbox.setPadding(new Insets(30, 60, 60, 60));
+        vbox.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        vbox.setSpacing(10);
+
+
+        Label header = new Label("-ATM APP-");
+        header.setId("header");
+
+        Label logInTxt1 = new Label("Account ID: ");
+        Label logInTxt2 = new Label("PIN number: ");
+
+        FlowPane div1 = new FlowPane();
+        FlowPane div2 = new FlowPane();
+
+        div1.getChildren().add(logInTxt1);
+        div1.getChildren().add(field);
+        div2.getChildren().add(logInTxt2);
+        div2.getChildren().add(field2);
+
+        Button btnLogin= new Button("Log in");
+        btnLogin.setOnAction(e -> {
+            vbox.getChildren().clear();
+        });
+
+        vbox.getChildren().addAll(header,div1,div2,btnLogin);
+
+
+        return vbox;
+    }
+
+
+
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(createContent()));
+        Scene scene = new Scene(createPage());
+        stage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         stage.show();
     }
 
