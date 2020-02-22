@@ -27,7 +27,7 @@ public class ActionResult<T> {
     }
 
     public String getErrorMessage() {
-        return errorMessage;
+        return this.errorMessage;
     }
 
     public String getSpecialMessage(){

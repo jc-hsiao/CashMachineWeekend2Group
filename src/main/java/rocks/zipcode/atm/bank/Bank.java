@@ -3,6 +3,7 @@ package rocks.zipcode.atm.bank;
 
 import rocks.zipcode.atm.ActionResult;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +53,7 @@ public class Bank {
         } else  if (ok && !account.isPremium) {
             return ActionResult.success(account.getAccountData());
         } else{
-            return ActionResult.fail("Withdraw failed: " + amount + ". Account has: " + account.getBalance());
+            return ActionResult.fail("Withdraw failed: " + amount + ". Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
         }
     }
 }
