@@ -16,8 +16,12 @@ GridPane{
     -fx-border-width: 1;
     -fx-border-radius: 10;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.3) , 5, 0.0 , 0 , 1 );
-
 }
+
+#premGrid{
+    -fx-background-color: linear-gradient(#ffffe7 2%, #a88a6e 25%, #f4d15f 100%);
+}
+
 #loginBT{
     -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
     -fx-text-fill: #fff;
