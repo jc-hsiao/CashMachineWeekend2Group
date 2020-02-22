@@ -14,18 +14,38 @@ public class Bank {
 
     public Map<Integer, Account> accounts = new HashMap<>();
 
+
     public Bank() {
-        accounts.put(1000, new BasicAccount(new AccountData(
-                1000, "Example 1", "example1@gmail.com", 500.00, "1234"
-        )));
 
-        accounts.put(2000, new PremiumAccount(new AccountData(
-                2000, "Example 2", "example2@gmail.com", 200.00, "1111"
-        )));
+        String[] premiumUserName = {
+                "Aarti Kansal", "Adam Bennet", "April Howard", "Chip Fody", "Chris Farmer", "Corey Williams",
+                "David Comer", "David Kelly", "Destiny Bond", "Emily Beech", "Giles Bradford", "Greg Davis",
+                "Han Lin", "James Churu", "James Wilkinson"
 
-        accounts.put(1, new BasicAccount(new AccountData(
-                1, "Example 3", "example3@gmail.com", 10000.00, "0000"
-        )));
+        };
+
+
+        for(int i=0; i<15 ; i++){
+            accounts.put( i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
+        }
+
+
+
+
+        String[] basicUserName = {
+                "Jeremey McCray", "Kevin Romero", "Khalil Crumpler", "Leila Hsiao", "Matthew Ascone",
+                "Maurice Russ", "Moe Aydin", "Raheel Uppal", "Sandeep Narayana Mangalam",
+                "Sandy Setiawan", "Ujjwal Shrestha", "Von Le", "Zanetta Norris", "Zeth Kane"
+
+        };
+
+        for(int i=0; i<14 ; i++){
+            accounts.put( i, new BasicAccount(new AccountData(i, basicUserName[i], basicUserName[i].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
+        }
+
+
+
+
     }
 
     public ActionResult<AccountData> getAccountById(int id) {

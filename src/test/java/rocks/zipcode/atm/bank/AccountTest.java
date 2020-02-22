@@ -11,6 +11,7 @@ public class AccountTest {
     @Test
     public void canWithdrawTestPremium(){
         PremiumAccount billGates = new PremiumAccount(new AccountData(123,"William Gates","moe.money@gatesestate.com",100000000.00, "9999"));
+
         boolean actual = billGates.canWithdraw(1000050);
         boolean expected = true;
         Assert.assertEquals(expected,actual);
