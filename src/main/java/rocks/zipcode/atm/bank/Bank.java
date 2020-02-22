@@ -52,7 +52,7 @@ public class Bank {
             return ActionResult.successWithMessage("Overdraft paid!", account.getAccountData());
         } else  if (ok && !account.isPremium) {
             return ActionResult.success(account.getAccountData());
-        } else{
+        } else {
             return ActionResult.fail("Withdraw failed: " + amount + ". Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
         }
     }
