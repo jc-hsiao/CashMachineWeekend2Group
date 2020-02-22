@@ -8,14 +8,15 @@ public final class AccountData {
     private final int id;
     private final String name;
     private final String email;
-
     private final int balance;
+    protected final int pin;
 
-    AccountData(int id, String name, String email, int balance) {
+    AccountData(int id, String name, String email, int balance, int pin) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.balance = balance;
+        this.pin = pin;
     }
 
     public int getId() {
@@ -33,6 +34,8 @@ public final class AccountData {
     public int getBalance() {
         return balance;
     }
+
+    public int getPin() {return pin;}
 
     @Override
     public String toString() {
