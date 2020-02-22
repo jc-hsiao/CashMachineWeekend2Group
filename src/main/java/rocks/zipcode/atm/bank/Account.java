@@ -4,7 +4,15 @@ package rocks.zipcode.atm.bank;
  * @author ZipCodeWilmington
  */
 public abstract class Account {
-    boolean isPremium;
+    private boolean isPremium;
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
+    }
 
     private AccountData accountData;
 

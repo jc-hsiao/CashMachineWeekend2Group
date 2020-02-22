@@ -15,6 +15,20 @@ public class CashMachine {
     private AccountData accountData = null;
     private String specialMessage = "";
 
+    public Bank getBank() {
+        return bank;
+    }
+
+    public int getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(int currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    private int currentUser;
+
     public CashMachine(Bank bank) {
         this.bank = bank;
     }

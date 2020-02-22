@@ -45,7 +45,7 @@ public class BankTest {
     public void withdrawNegativeTestPremiumOverDraft() {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-       Boolean is=oliverTwist.isPremium;
+       Boolean is=oliverTwist.isPremium();
         zipBank.accounts.put(121, oliverTwist);
         ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), 101);
         Assert.assertEquals("Withdraw failed: 101.Account has: .00", actual.getErrorMessage());
@@ -54,7 +54,7 @@ public class BankTest {
     public void withdrawNegativeTest() {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        Boolean is=oliverTwist.isPremium;
+        Boolean is=oliverTwist.isPremium();
         zipBank.accounts.put(121, oliverTwist);
         ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), -101);
         Assert.assertEquals("Withdraw failed can not except negative amount ", actual.getErrorMessage());
@@ -63,7 +63,7 @@ public class BankTest {
     public void depositNegativeTest() {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        Boolean is=oliverTwist.isPremium;
+        Boolean is=oliverTwist.isPremium();
         zipBank.accounts.put(121, oliverTwist);
         ActionResult<AccountData> actual = zipBank.deposit(oliverTwist.getAccountData(), -101);
         Assert.assertEquals("Withdraw failed can not except negative amount ", actual.getErrorMessage());
@@ -73,7 +73,7 @@ public class BankTest {
     public void depositTest() {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        Boolean is=oliverTwist.isPremium;
+        Boolean is=oliverTwist.isPremium();
         zipBank.accounts.put(121, oliverTwist);
         ActionResult<AccountData> actual = zipBank.deposit(oliverTwist.getAccountData(), 10);
         Assert.assertEquals("Withdraw failed can not except negative amount ", actual.getErrorMessage());
