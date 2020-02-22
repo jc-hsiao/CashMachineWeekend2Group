@@ -39,8 +39,10 @@ public class Bank {
 
         };
 
-        for(int i=0; i<14 ; i++){
-            this.accounts.put( i, new BasicAccount(new AccountData(i, basicUserName[i], basicUserName[i].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
+        int counter = 0;
+        for(int i=16; i<29 ; i++){
+            accounts.put( i, new BasicAccount(new AccountData(i, basicUserName[counter], basicUserName[counter].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
+            counter++;
         }
     }
 
