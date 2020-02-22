@@ -32,7 +32,7 @@ GridPane{
 }
 .button:pressed{
     -fx-background-color: linear-gradient(goldenrod,darkgoldenrod);
-    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
 
 }
 
@@ -40,12 +40,14 @@ GridPane{
     -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
 }
 
-#numField{
-    -fx-font-size: 22px;
+#balanceNum{
+    -fx-font-size: 26px;
     -fx-background-color:black;
     -fx-text-fill: white;
     -fx-font-family: "Courier New", Courier, monospace;
+    -fx-padding: 0px 10px;
 }
+
 #wBT,#dBT{
     -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
     -fx-font-weight: bold;
@@ -58,6 +60,17 @@ GridPane{
     -fx-background-color: rgba(255,255,255,0.0);
 }
 
+
+#greetTxt{
+    -fx-font: 25px "Arial Black", Gadget, sans-serif;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.8) , 0,0,0,1 );
+    -fx-fill: linear-gradient(from 0% 0% to 100% 100%, repeat, darkslategrey 0%, seagreen 50%);
+}
+
+#balanceTxt{
+    -fx-font: 15px "Arial Black", Gadget, sans-serif;
+}
+
 #warning{
     -fx-font: 14px "Trebuchet MS", Helvetica, sans-serif;
     -fx-fill: firebrick;
@@ -65,4 +78,11 @@ GridPane{
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 0,0,0,0 );
 
 }
-
+#moneyVBox{
+    -fx-background-color: white;
+}
+#moneyField{
+    -fx-font-size: 30px;
+    -fx-padding: 10px;
+    -fx-font-family: "Courier New", Courier, monospace;
+}
