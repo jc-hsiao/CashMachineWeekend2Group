@@ -111,9 +111,21 @@ public class CashMachineApp extends Application {
         BTBox.getChildren().add(oops);
         BTBox.getChildren().add(loginBT);
         loginBT.setOnAction(e -> {
-            vbox.getChildren().clear();
-            vbox.getChildren().add(mainGrid);
-            //oops.setText("Oops message!");
+            // begin login logic
+            cashMachine.login(Integer.parseInt(field.getText()), field2.getText());
+
+            //login fails
+
+            if (cashMachine.getErrorMessage() != null){
+                oops.setText("Login failed!");
+            } else {
+                vbox.getChildren().clear();
+                vbox.getChildren().add(mainGrid);
+            }
+
+
+
+
         });
 
         loginGrid.add(header, 0,0,2,1);
@@ -123,6 +135,8 @@ public class CashMachineApp extends Application {
         loginGrid.add(field2,1,2);
         loginGrid.add(BTBox, 1,3);
     }
+
+
 
 
     private void setUpMainGrid(){

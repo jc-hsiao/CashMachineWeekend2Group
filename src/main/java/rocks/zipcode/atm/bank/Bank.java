@@ -26,7 +26,7 @@ public class Bank {
 
 
         for(int i=0; i<15 ; i++){
-            accounts.put( i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
+            this.accounts.put( i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
         }
 
 
@@ -40,21 +40,16 @@ public class Bank {
         };
 
         for(int i=0; i<14 ; i++){
-            accounts.put( i, new BasicAccount(new AccountData(i, basicUserName[i], basicUserName[i].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
+            this.accounts.put( i, new BasicAccount(new AccountData(i, basicUserName[i], basicUserName[i].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
         }
-
-
-
-
     }
 
-    public ActionResult<AccountData> getAccountById(int id) {
+    public ActionResult<AccountData> getAccountById(int id, String pin) {
         Account account = accounts.get(id);
-
-        if (account != null) {
-            return ActionResult.success(account.getAccountData());
+        if (account != null  && pin.equals(account.getAccountData().getPin())) {
+                return ActionResult.success(account.getAccountData());
         } else {
-            return ActionResult.fail("No account with id: " + id + "\nTry account 1000 or 2000");
+            return ActionResult.fail("Invalid login credentials");
         }
     }
 
@@ -72,7 +67,7 @@ public class Bank {
             return ActionResult.successWithMessage("Overdraft paid!", account.getAccountData());
         } else  if (ok && !account.isPremium) {
             return ActionResult.success(account.getAccountData());
-        } else{
+        } else {
             return ActionResult.fail("Withdraw failed: " + amount + ". Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
         }
     }
