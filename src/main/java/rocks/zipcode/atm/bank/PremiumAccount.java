@@ -10,7 +10,7 @@ public class PremiumAccount extends Account {
 
     public PremiumAccount(AccountData accountData) {
         super(accountData);
-        boolean isPremium = true;
+        this.isPremium = true;
     }
 
     @Override

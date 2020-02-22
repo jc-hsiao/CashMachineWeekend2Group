@@ -17,7 +17,7 @@ public class ActionResult<T> {
         this.errorMessage = errorMessage;
     }
 
-    private ActionResult(String specialMessage, T data){
+    public ActionResult(String specialMessage, T data){
         this.specialMessage = specialMessage;
         this.data = data;
     }

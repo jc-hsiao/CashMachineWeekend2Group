@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Bank {
 
-    private Map<Integer, Account> accounts = new HashMap<>();
+    public Map<Integer, Account> accounts = new HashMap<>();
 
     public Bank() {
         accounts.put(1000, new BasicAccount(new AccountData(
@@ -47,9 +47,11 @@ public class Bank {
     public ActionResult<AccountData> withdraw(AccountData accountData, int amount) {
         Account account = accounts.get(accountData.getId());
         boolean ok = account.withdraw(amount);
-        if (ok && account.isPremium==true) {
+        if (ok && account.isPremium) {
+            return ActionResult.successWithMessage("Overdraft paid!", account.getAccountData());
+        } else  if (ok && !account.isPremium) {
             return ActionResult.success(account.getAccountData());
-        } else {
+        } else{
             return ActionResult.fail("Withdraw failed: " + amount + ". Account has: " + account.getBalance());
         }
     }
