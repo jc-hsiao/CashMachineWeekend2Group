@@ -1,21 +1,68 @@
-
-#header {
-    -fx-font: 40px "Verdana";
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+.root {
+    -fx-background-image: url("woodBG.jpg");
 }
 
-.button{
-    -fx-background-color: #000000;
-    -fx-font: 15px "Verdana";
+#header {
+    -fx-font: 28px "Arial Black", Gadget, sans-serif;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.8) , 0,0,0,1 );
+    -fx-fill: linear-gradient(from 0% 0% to 100% 100%, repeat, darkslategrey 0%, seagreen 50%);
+}
+GridPane{
+    /*-fx-background-color: rgba(255,255,255,0.7) ;*/
+    -fx-background-color: linear-gradient(to bottom right,rgba(255,255,255,0.8),rgba(225,200,190,0.7));
+    -fx-background-radius: 10;
+    -fx-border-style: solid inside;
+    -fx-border-color: #fff;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.3) , 5, 0.0 , 0 , 1 );
+
+}
+#loginBT{
+    -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
     -fx-text-fill: #fff;
-    -fx-font-weight: bold;
+    -fx-padding: 8px 20px;
+}
+.button{
+    -fx-background-color: linear-gradient(seagreen,darkslategrey);
+    -fx-text-fill: #fff;
+}
+.button:hover{
+    -fx-background-color: linear-gradient(goldenrod,darkgoldenrod);
+}
+.button:pressed{
+    -fx-background-color: linear-gradient(goldenrod,darkgoldenrod);
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+
 }
 
 .label{
-    -fx-font: 13px "Verdana";
-    -fx-padding: 1;
+    -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
 }
 
+#numField{
+    -fx-font-size: 22px;
+    -fx-background-color:black;
+    -fx-text-fill: white;
+    -fx-font-family: "Courier New", Courier, monospace;
+}
+#wBT,#dBT{
+    -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
+    -fx-font-weight: bold;
+}
+#outBT{
+    -fx-underline: true;
+    -fx-font: 14px "Trebuchet MS", Helvetica, sans-serif;
+    -fx-text-fill: firebrick;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(255,255,255,0.0);
+}
+
+#warning{
+    -fx-font: 14px "Trebuchet MS", Helvetica, sans-serif;
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 0,0,0,0 );
+
+}
 
