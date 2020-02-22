@@ -1,7 +1,4 @@
 package rocks.zipcode.atm;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -35,7 +32,7 @@ public class CashMachineApp extends Application {
         setUpMainGrid();
         setUpMainGrid2();
 
-        vbox.getChildren().add(loginGrid);
+        vbox.getChildren().add(premGrid);
 
     }
 
@@ -211,11 +208,11 @@ public class CashMachineApp extends Application {
 
     private void setUpMainGrid2(){
         premGrid.setId("premGrid");
+
         premGrid.setAlignment(Pos.CENTER);
         premGrid.setHgap(10);
         premGrid.setVgap(5);
         premGrid.setPadding(new Insets(40,20,40,20));
-
         Text greetTxt = new Text("Hi, regular user");
         Text balanceTxt = new Text("Your current balance is: ");
         Label balanceNum = new Label("$1000.00");
@@ -238,8 +235,8 @@ public class CashMachineApp extends Application {
         Button doneWithdraw = new Button("Withdraw");
 
 
-        greetTxt.setId("greetTxt");
-        balanceTxt.setId("balanceTxt");
+        greetTxt.setId("greetTxt2");
+        balanceTxt.setId("balanceTxt2");
 
         balanceNum.setPrefSize(300,50);
         balanceNum.setAlignment(Pos.CENTER_RIGHT);
@@ -317,6 +314,7 @@ public class CashMachineApp extends Application {
         warningHBox.setAlignment(Pos.CENTER_RIGHT);
         warningHBox.setPadding(new Insets(0,5,0,0));
         warningHBox.getChildren().add(oops2);
+
 
 
         premGrid.add(greetTxt,0,0);
