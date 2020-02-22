@@ -16,8 +16,12 @@ GridPane{
     -fx-border-width: 1;
     -fx-border-radius: 10;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.3) , 5, 0.0 , 0 , 1 );
-
 }
+
+#premGrid{
+    -fx-background-color: linear-gradient(#ffffe7 2%, #a88a6e 25%, #f4d15f 100%);
+}
+
 #loginBT{
     -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
     -fx-text-fill: #fff;
@@ -35,6 +39,12 @@ GridPane{
     -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
 
 }
+.button:disabled{
+    -fx-background-color: darkgrey;
+    -fx-text-fill: grey;
+    -fx-opacity: 1.0 ;
+}
+
 
 .label{
     -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
@@ -55,7 +65,7 @@ GridPane{
 #outBT{
     -fx-underline: true;
     -fx-font: 14px "Trebuchet MS", Helvetica, sans-serif;
-    -fx-text-fill: firebrick;
+    -fx-text-fill: black;
     -fx-font-weight: bold;
     -fx-background-color: rgba(255,255,255,0.0);
 }
