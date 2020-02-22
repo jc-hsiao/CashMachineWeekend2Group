@@ -25,11 +25,9 @@ public class Bank {
         };
 
 
-        for(int i=0; i<15 ; i++){
-            this.accounts.put( i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
+        for (int i = 0; i < 15; i++) {
+            this.accounts.put(i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0] + "@zipcode.com", 100.00, "1234")));
         }
-
-
 
 
         String[] basicUserName = {
@@ -40,16 +38,17 @@ public class Bank {
         };
 
         int counter = 0;
-        for(int i=16; i<29 ; i++){
-            accounts.put( i, new BasicAccount(new AccountData(i, basicUserName[counter], basicUserName[counter].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
+        for (int i = 16; i < 29; i++) {
+            accounts.put(i, new BasicAccount(new AccountData(i, basicUserName[counter], basicUserName[counter].split(" ")[0] + "@zipcode.com", 100.00, "1234")));
             counter++;
         }
+
     }
 
     public ActionResult<AccountData> getAccountById(int id, String pin) {
         Account account = accounts.get(id);
-        if (account != null  && pin.equals(account.getAccountData().getPin())) {
-                return ActionResult.success(account.getAccountData());
+        if (account != null && pin.equals(account.getAccountData().getPin())) {
+            return ActionResult.success(account.getAccountData());
         } else {
             return ActionResult.fail("Invalid login credentials");
         }
@@ -69,13 +68,14 @@ public class Bank {
     public ActionResult<AccountData> withdraw(AccountData accountData, int amount) {
         Account account = accounts.get(accountData.getId());
         if (amount <= 0) {
-             return ActionResult.fail("Withdraw failed can not except negative amount ");
-        } else if (account.isPremium) {
+            return ActionResult.fail("Withdraw failed can not except negative amount ");
+        } else if (account.isPremium()) {
             return ActionResult.successWithMessage("Overdraft paid!", account.getAccountData());
-
-        } else if ((!account.isPremium) && (accountData.getBalance() - amount <= 0) || (account.isPremium) && (accountData.getBalance() - amount >= -100)) {
+        } else if ((!account.isPremium()) && (accountData.getBalance() - amount <= 0) || (account.isPremium()) && (accountData.getBalance() - amount >= -100)) {
             return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
         }
-            return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
+        return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
     }
-}
+    }
+
+
