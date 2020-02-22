@@ -39,9 +39,7 @@ public class Bank {
 
         };
 
-        for(int i=0; i<14 ; i++){
-            this.accounts.put( i, new BasicAccount(new AccountData(i, basicUserName[i], basicUserName[i].split(" ")[0]+"@zipcode.com", 100.00, "1234")));
-        }
+
     }
 
     public ActionResult<AccountData> getAccountById(int id, String pin) {
@@ -63,9 +61,9 @@ public class Bank {
     public ActionResult<AccountData> withdraw(AccountData accountData, int amount) {
         Account account = accounts.get(accountData.getId());
         boolean ok = account.withdraw(amount);
-        if (ok && account.isPremium) {
+        if (ok && account.isPremium()) {
             return ActionResult.successWithMessage("Overdraft paid!", account.getAccountData());
-        } else  if (ok && !account.isPremium) {
+        } else  if (ok && !account.isPremium()) {
             return ActionResult.success(account.getAccountData());
         } else {
             return ActionResult.fail("Withdraw failed: " + amount + ". Account has: " + new DecimalFormat("#.00").format(account.getBalance()));

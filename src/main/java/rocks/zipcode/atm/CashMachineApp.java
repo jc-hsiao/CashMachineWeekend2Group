@@ -118,11 +118,8 @@ public class CashMachineApp extends Application {
             } else {
                 vbox.getChildren().clear();
                 vbox.getChildren().add(mainGrid);
+                cashMachine.setCurrentUser(Integer.parseInt(field.getText()));
             }
-
-
-
-
         });
 
         loginGrid.add(header, 0,0,2,1);
@@ -142,8 +139,12 @@ public class CashMachineApp extends Application {
         mainGrid.setHgap(10);
         mainGrid.setVgap(5);
         mainGrid.setPadding(new Insets(40,20,40,20));
-
         Text greetTxt = new Text("Hi, regular user");
+        if (cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).isPremium()) {
+            greetTxt.setText("Hello, " + cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getName());
+        } else {
+            greetTxt.setText("Hi, regular user");
+        }
         Text balanceTxt = new Text("Your current balance is: ");
         Label balanceNum = new Label("$1000.00");
         Button withdrawBT= new Button("Withdraw");
