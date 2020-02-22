@@ -37,12 +37,12 @@ public abstract class Account {
         }
     }
 
-    public int getBalance() {
+    public Double getBalance() {
         return accountData.getBalance();
     }
 
-    private void updateBalance(int newBalance) {
+    private void updateBalance(Double newBalance) {
         accountData = new AccountData(accountData.getId(), accountData.getName(), accountData.getEmail(),
-                newBalance);
+                newBalance, accountData.getPin());
     }
 }
