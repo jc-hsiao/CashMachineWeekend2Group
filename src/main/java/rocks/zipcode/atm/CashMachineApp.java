@@ -1,18 +1,15 @@
 package rocks.zipcode.atm;
 
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import rocks.zipcode.atm.bank.Bank;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
@@ -22,86 +19,99 @@ public class CashMachineApp extends Application {
 
     private CashMachine cashMachine = new CashMachine(new Bank());
 
-    private Parent createContent() {
-        VBox vbox = new VBox(10);
-        vbox.setPrefSize(600, 600);
+//    private Parent createContent() {
+//        VBox vbox = new VBox(10);
+//        vbox.setPrefSize(600, 600);
+//
+//        TextArea areaInfo = new TextArea();
+//
+//        Button btnSubmit = new Button("Set Account ID");
+//        btnSubmit.setOnAction(e -> {
+//            int id = Integer.parseInt(field.getText());
+//            cashMachine.login(id);
+//
+//            areaInfo.setText(cashMachine.toString());
+//        });
+//
+//        Button btnDeposit = new Button("Deposit");
+//        btnDeposit.setOnAction(e -> {
+//            int amount = Integer.parseInt(field.getText());
+//            cashMachine.deposit(amount);
+//
+//            areaInfo.setText(cashMachine.toString());
+//        });
+//
+//        Button btnWithdraw = new Button("Withdraw");
+//        btnWithdraw.setOnAction(e -> {
+//            int amount = Integer.parseInt(field.getText());
+//            cashMachine.withdraw(amount);
+//
+//            areaInfo.setText(cashMachine.toString());
+//        });
+//
+//        Button btnExit = new Button("Exit");
+//        btnExit.setOnAction(e -> {
+//            cashMachine.exit();
+//
+//            areaInfo.setText(cashMachine.toString());
+//        });
+//
+//        FlowPane flowpane = new FlowPane();
+//
+//        flowpane.getChildren().add(btnSubmit);
+//        flowpane.getChildren().add(btnDeposit);
+//        flowpane.getChildren().add(btnWithdraw);
+//        flowpane.getChildren().add(btnExit);
+//        vbox.getChildren().addAll(field, flowpane, areaInfo);
+//        return vbox;
+//    }
 
-        TextArea areaInfo = new TextArea();
 
-        Button btnSubmit = new Button("Set Account ID");
-        btnSubmit.setOnAction(e -> {
-            int id = Integer.parseInt(field.getText());
-            cashMachine.login(id);
-
-            areaInfo.setText(cashMachine.toString());
-        });
-
-        Button btnDeposit = new Button("Deposit");
-        btnDeposit.setOnAction(e -> {
-            int amount = Integer.parseInt(field.getText());
-            cashMachine.deposit(amount);
-
-            areaInfo.setText(cashMachine.toString());
-        });
-
-        Button btnWithdraw = new Button("Withdraw");
-        btnWithdraw.setOnAction(e -> {
-            int amount = Integer.parseInt(field.getText());
-            cashMachine.withdraw(amount);
-
-            areaInfo.setText(cashMachine.toString());
-        });
-
-        Button btnExit = new Button("Exit");
-        btnExit.setOnAction(e -> {
-            cashMachine.exit();
-
-            areaInfo.setText(cashMachine.toString());
-        });
-
-        FlowPane flowpane = new FlowPane();
-
-        flowpane.getChildren().add(btnSubmit);
-        flowpane.getChildren().add(btnDeposit);
-        flowpane.getChildren().add(btnWithdraw);
-        flowpane.getChildren().add(btnExit);
-        vbox.getChildren().addAll(field, flowpane, areaInfo);
-        return vbox;
-    }
-
-
-    private TextField field = new TextField();
-    private TextField field2 = new TextField();
 
     private Parent createPage() {
         VBox vbox = new VBox(10);
-        vbox.setPrefSize(600, 600);
-        vbox.setPadding(new Insets(30, 60, 60, 60));
-        vbox.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        vbox.setSpacing(10);
+        vbox.setPrefSize(500, 500);
+        vbox.setPadding(new Insets(110, 70,70,70));
+        //vbox.setBackground(new Background(new BackgroundImage()));
+        //vbox.setSpacing(10);
 
+        GridPane grid = new GridPane();
+        grid.setId("grid");
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(20);
+        grid.setPadding(new Insets(40,20,40,20));
 
-        Label header = new Label("-ATM APP-");
+        Text header = new Text("ZipCloudBank");
         header.setId("header");
-
         Label logInTxt1 = new Label("Account ID: ");
         Label logInTxt2 = new Label("PIN number: ");
+        TextField field = new TextField();
+        PasswordField field2 = new PasswordField();
+        field.setPrefColumnCount(15);
+        field2.setPrefColumnCount(15);
 
-        FlowPane div1 = new FlowPane();
-        FlowPane div2 = new FlowPane();
+        Button loginBT= new Button("Log in");
+        HBox BTBox = new HBox(10);
+        BTBox.setAlignment(Pos.BOTTOM_RIGHT);
+        Text oops = new Text();
+        oops.setId("warning");
+        BTBox.getChildren().add(oops);
+        BTBox.getChildren().add(loginBT);
 
-        div1.getChildren().add(logInTxt1);
-        div1.getChildren().add(field);
-        div2.getChildren().add(logInTxt2);
-        div2.getChildren().add(field2);
-
-        Button btnLogin= new Button("Log in");
-        btnLogin.setOnAction(e -> {
-            vbox.getChildren().clear();
+        loginBT.setOnAction(e -> {
+           //vbox.getChildren().clear();
+           oops.setText("Oops message!");
         });
 
-        vbox.getChildren().addAll(header,div1,div2,btnLogin);
 
+        grid.add(header, 0,0,2,1);
+        grid.add(logInTxt1,0,1);
+        grid.add(field,1,1);
+        grid.add(logInTxt2,0,2);
+        grid.add(field2,1,2);
+        grid.add(BTBox, 1,3);
+        vbox.getChildren().addAll(grid);
 
         return vbox;
     }
