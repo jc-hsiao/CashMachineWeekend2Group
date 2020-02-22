@@ -35,7 +35,7 @@ public class CashMachineApp extends Application {
         setUpMainGrid();
         setUpMainGrid2();
 
-        vbox.getChildren().add(premGrid);
+        vbox.getChildren().add(loginGrid);
 
     }
 
