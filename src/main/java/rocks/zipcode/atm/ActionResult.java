@@ -7,6 +7,7 @@ public class ActionResult<T> {
 
     private T data;
     private String errorMessage;
+    private String specialMessage;
 
     private ActionResult(T data) {
         this.data = data;
@@ -16,12 +17,21 @@ public class ActionResult<T> {
         this.errorMessage = errorMessage;
     }
 
+    public ActionResult(String specialMessage, T data){
+        this.specialMessage = specialMessage;
+        this.data = data;
+    }
+
     public T getData() {
         return data;
     }
 
     public String getErrorMessage() {
-        return errorMessage;
+        return this.errorMessage;
+    }
+
+    public String getSpecialMessage(){
+        return specialMessage;
     }
 
     public boolean isSuccess() {
@@ -30,6 +40,10 @@ public class ActionResult<T> {
 
     public static <E> ActionResult<E> success(E data) {
         return new ActionResult<E>(data);
+    }
+
+    public static <E> ActionResult<E> successWithMessage(String specialMessage, E data){
+        return new ActionResult<E>(specialMessage, data);
     }
 
     public static <E> ActionResult<E> fail(String errorMessage) {
