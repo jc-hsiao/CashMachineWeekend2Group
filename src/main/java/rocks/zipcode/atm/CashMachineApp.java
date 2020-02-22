@@ -22,58 +22,9 @@ public class CashMachineApp extends Application {
 
     private CashMachine cashMachine = new CashMachine(new Bank());
 
-//    private Parent createContent() {
-//        VBox vbox = new VBox(10);
-//        vbox.setPrefSize(600, 600);
-//
-//        TextArea areaInfo = new TextArea();
-//
-//        Button btnSubmit = new Button("Set Account ID");
-//        btnSubmit.setOnAction(e -> {
-//            int id = Integer.parseInt(field.getText());
-//            cashMachine.login(id);
-//
-//            areaInfo.setText(cashMachine.toString());
-//        });
-//
-//        Button btnDeposit = new Button("Deposit");
-//        btnDeposit.setOnAction(e -> {
-//            int amount = Integer.parseInt(field.getText());
-//            cashMachine.deposit(amount);
-//
-//            areaInfo.setText(cashMachine.toString());
-//        });
-//
-//        Button btnWithdraw = new Button("Withdraw");
-//        btnWithdraw.setOnAction(e -> {
-//            int amount = Integer.parseInt(field.getText());
-//            cashMachine.withdraw(amount);
-//
-//            areaInfo.setText(cashMachine.toString());
-//        });
-//
-//        Button btnExit = new Button("Exit");
-//        btnExit.setOnAction(e -> {
-//            cashMachine.exit();
-//
-//            areaInfo.setText(cashMachine.toString());
-//        });
-//
-//        FlowPane flowpane = new FlowPane();
-//
-//        flowpane.getChildren().add(btnSubmit);
-//        flowpane.getChildren().add(btnDeposit);
-//        flowpane.getChildren().add(btnWithdraw);
-//        flowpane.getChildren().add(btnExit);
-//        vbox.getChildren().addAll(field, flowpane, areaInfo);
-//        return vbox;
-//    }
-
-
     VBox vbox = new VBox(10);
     GridPane loginGrid = new GridPane();
     GridPane mainGrid = new GridPane();
-
 
     private void setUpUI(){
         vbox.setPrefSize(500, 500);
@@ -83,6 +34,7 @@ public class CashMachineApp extends Application {
         setUpMainGrid();
 
         vbox.getChildren().add(loginGrid);
+
     }
 
     private void setUpLoginGrid(){
@@ -111,10 +63,7 @@ public class CashMachineApp extends Application {
         BTBox.getChildren().add(oops);
         BTBox.getChildren().add(loginBT);
         loginBT.setOnAction(e -> {
-            // begin login logic
             cashMachine.login(Integer.parseInt(field.getText()), field2.getText());
-
-            //login fails
 
             if (cashMachine.getErrorMessage() != null){
                 oops.setText("Login failed!");
@@ -122,9 +71,6 @@ public class CashMachineApp extends Application {
                 vbox.getChildren().clear();
                 vbox.getChildren().add(mainGrid);
             }
-
-
-
 
         });
 
@@ -241,8 +187,6 @@ public class CashMachineApp extends Application {
             //this will close the window
             moneyStage.close();
         });
-
-
 
         logOutHBox.setAlignment(Pos.CENTER_RIGHT);
         logOutHBox.getChildren().add(logOutBT);
