@@ -25,5 +25,4 @@ public class AccountTest {
         Assert.assertEquals(expected,actual);
     }
 
-
 }
