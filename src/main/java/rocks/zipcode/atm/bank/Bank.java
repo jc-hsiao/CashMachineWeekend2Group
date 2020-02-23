@@ -32,7 +32,6 @@ public class Bank {
                 "Jeremy McCray", "Kevin Romero", "Khalil Crumpler", "Leila Hsiao", "Matthew Ascone",
                 "Maurice Russ", "Moe Aydin", "Raheel Uppal", "Sandeep Narayana Mangalam",
                 "Sandy Setiawan", "Ujjwal Shrestha", "Von Le", "Zanetta Norris", "Zeth Kane"
-
         };
 
         int counter = 0;
@@ -43,31 +42,49 @@ public class Bank {
 
     }
 
-    public ActionResult<AccountData> getAccountById(int id, String pin) {
-        Account account = accounts.get(id);
+    public ActionResult<AccountData> getAccountById(String id, String pin) {
+        Account account;
+        try {
+            account = accounts.get(Integer.parseInt(id));
+        }catch(Exception e){
+            return ActionResult.fail("Invalid input!");
+        }
         if (account != null && pin.equals(account.getAccountData().getPin())) {
             return ActionResult.success(account.getAccountData());
         } else {
-            return ActionResult.fail("Invalid login credentials");
+            return ActionResult.fail("Invalid login!");
         }
     }
 
-    public ActionResult<AccountData> deposit(AccountData accountData, Double amount) {
-        if (amount < 0) {
-            return ActionResult.fail("Deposit failed can not except negative amount ");
-        }
+    public ActionResult<AccountData> deposit(AccountData accountData, String amountString) {
+        Double amount;
         Account account = accounts.get(accountData.getId());
-        account.deposit(amount);
 
+        try {
+            amount = Double.parseDouble(amountString);
+        }catch(Exception e){
+            return ActionResult.fail("Deposit failed: Invalid input!");
+        }
+
+        if (amount < 0) {
+            return ActionResult.fail("Deposit failed: Negative input not allowed.");
+        }
+
+        account.deposit(amount);
         return ActionResult.success(account.getAccountData());
     }
 
-    public ActionResult<AccountData> withdraw(AccountData accountData, Double amount) {
+    public ActionResult<AccountData> withdraw(AccountData accountData, String amountString) {
         Account account = accounts.get(accountData.getId());
+        Double amount;
+        try {
+            amount = Double.parseDouble(amountString);
+        }catch(Exception e){
+            return ActionResult.fail("Withdraw failed: Invalid input!");
+        }
 
         if (amount < 0) {
-            return ActionResult.fail("Withdraw failed can not except negative amount ");
-
+            return ActionResult.fail("Withdraw failed: Negative input not allowed.");
 //        } else if ( (!account.isPremium()) && (accountData.getBalance() - amount <= 0) || (account.isPremium()) && (accountData.getBalance() - amount >= -100)) {
 //           return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
         }else if (account.isPremium() && (amount > account.getBalance())) {
@@ -75,10 +92,10 @@ public class Bank {
                 account.withdraw(amount);
                 return ActionResult.successWithMessage("Overdraft Warning!",account.getAccountData());
             }else{
-                return ActionResult.fail("Withdraw failed: " + amount + ". Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
+                return ActionResult.fail("Withdraw failed: Balance not enough.");
             }
         }else if(!account.canWithdraw(amount)){
-            return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
+            return ActionResult.fail("Withdraw failed: Balance not enough.");
         }
         account.withdraw(amount);
         return ActionResult.success(account.getAccountData());
