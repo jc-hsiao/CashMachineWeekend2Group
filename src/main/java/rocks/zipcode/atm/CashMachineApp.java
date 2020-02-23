@@ -15,6 +15,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author ZipCodeWilmington
  */
@@ -26,6 +29,14 @@ public class CashMachineApp extends Application {
     GridPane loginGrid = new GridPane();
     GridPane mainGrid = new GridPane();
     GridPane premGrid = new GridPane();
+
+    Label balanceNum = new Label("--");
+    Text greetTxt = new Text("Hi, regular user");
+    String userName = "";
+    Double balance = 0.0;
+
+    private static final Logger LOGGER = Logger.getLogger(CashMachineApp.class.getName());
+
 
     private void setUpUI(){
         vbox.setPrefSize(500, 500);
@@ -77,8 +88,13 @@ public class CashMachineApp extends Application {
             } else {
                 vbox.getChildren().clear();
                 vbox.getChildren().add(mainGrid);
+                cashMachine.setCurrentUser(Integer.parseInt(field.getText()));
+                userName = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getName();
+                //
+                greetTxt.setText("Hello! "+userName);
+                balance = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getBalance();
+                balanceNum.setText("$" + balance);
             }
-
         });
 
         loginGrid.add(header, 0,0,2,1);
@@ -99,9 +115,8 @@ public class CashMachineApp extends Application {
         mainGrid.setVgap(5);
         mainGrid.setPadding(new Insets(40,20,40,20));
 
-        Text greetTxt = new Text("Hi, regular user");
         Text balanceTxt = new Text("Your current balance is: ");
-        Label balanceNum = new Label("$1000.00");
+
         Button withdrawBT= new Button("Withdraw");
         Button depositBT= new Button("Deposit");
         Button logOutBT= new Button("Log Out");
@@ -170,8 +185,12 @@ public class CashMachineApp extends Application {
                 popup.hide();
         });
         doneWithdraw.setOnAction(e -> {
-            oops2.setText("You don't have enough money!");
+            //oops2.setText("You don't have enough money!");
+            balance -= Double.parseDouble(moneyField.getText());
+            balanceNum.setText("$" + balance);
+            cashMachine.getBank().withdraw(cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData(), Double.parseDouble(moneyField.getText()));
             moneyStage.close();
+
 
         });
 
@@ -190,8 +209,10 @@ public class CashMachineApp extends Application {
                 popup.hide();
         });
         doneInsert.setOnAction(e -> {
-
-            //this will close the window
+            balance += Double.parseDouble(moneyField.getText());
+            balanceNum.setText("$" + balance);
+            //cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().setBalance(balance);
+            cashMachine.getBank().deposit(cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData(), Double.parseDouble(moneyField.getText()));
             moneyStage.close();
         });
 
