@@ -39,6 +39,9 @@ public class Bank {
         }
     }
 
+    public AccountData getAccount(String Id){
+        return accounts.get(Id).getAccountData();
+    }
 
     public static String generateID(String name){
         String[] nameArray = name.split(" ");
@@ -46,12 +49,8 @@ public class Bank {
     }
 
     public ActionResult<AccountData> login(String id, String pin) {
-        Account account;
-        try {
-            account = accounts.get(id);
-        }catch(Exception e){
-            return ActionResult.fail("Invalid input!");
-        }
+        Account account = accounts.get(id);
+
         if (account != null && pin.equals(account.getAccountData().getPin())) {
             return ActionResult.success(account.getAccountData());
         } else {

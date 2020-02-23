@@ -28,6 +28,29 @@ public class BankTest {
     }
 
     @Test
+    public void createAccountEmptyFieldTest(){
+        Bank zipBank = new Bank();
+        ActionResult<AccountData> actual = zipBank.createAccount("Phoenix Wright", "", "");
+        Assert.assertEquals("Some fields are empty!", actual.getErrorMessage());
+    }
+
+    @Test
+    public void depositEmptyFieldTest(){
+        Bank zipBank = new Bank();
+        AccountData someData = zipBank.getAccount("kyounger");
+        ActionResult<AccountData> actual = zipBank.deposit( someData ,null);
+        Assert.assertEquals("Deposit failed: Invalid input!", actual.getErrorMessage());
+    }
+
+    @Test
+    public void withdrawEmptyFieldTest(){
+        Bank zipBank = new Bank();
+        AccountData someData = zipBank.getAccount("kyounger");
+        ActionResult<AccountData> actual = zipBank.withdraw(someData ,null);
+        Assert.assertEquals("Withdraw failed: Invalid input!", actual.getErrorMessage());
+    }
+
+    @Test
     public void withdrawTestPremiumOverDraft() {
         Bank zipBank = new Bank();
         PremiumAccount billGates = new PremiumAccount(new AccountData("123", "William Gates", "moe.money@gatesestate.com", 1000.00, "9999"));

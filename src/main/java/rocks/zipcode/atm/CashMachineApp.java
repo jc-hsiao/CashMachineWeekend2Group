@@ -14,9 +14,6 @@ import javafx.stage.Stage;
 import java.text.DecimalFormat;
 
 // tell user their id when user sign up
-
-// check premium and print gold name
-
 // tests
 
 /**
