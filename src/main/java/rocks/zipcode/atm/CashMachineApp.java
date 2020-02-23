@@ -1,7 +1,4 @@
 package rocks.zipcode.atm;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -28,7 +25,6 @@ public class CashMachineApp extends Application {
     VBox vbox = new VBox(10);
     GridPane loginGrid = new GridPane();
     GridPane mainGrid = new GridPane();
-    GridPane premGrid = new GridPane();
 
     Label balanceNum = new Label("--");
     Text greetTxt = new Text("Hi, regular user");
@@ -44,7 +40,6 @@ public class CashMachineApp extends Application {
 
         setUpLoginGrid();
         setUpMainGrid();
-        setUpMainGrid2();
 
         vbox.getChildren().add(loginGrid);
 
@@ -88,12 +83,12 @@ public class CashMachineApp extends Application {
             } else {
                 vbox.getChildren().clear();
                 vbox.getChildren().add(mainGrid);
-                cashMachine.setCurrentUser(Integer.parseInt(field.getText()));
-                userName = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getName();
-                //
-                greetTxt.setText("Hello! "+userName);
-                balance = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getBalance();
-                balanceNum.setText("$" + balance);
+                //cashMachine.setCurrentUser(Integer.parseInt(field.getText()));
+                //userName = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getName();
+                //balance = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getBalance();
+
+                greetTxt.setText("Hello! "+cashMachine.getCurrentUser().getName());
+                balanceNum.setText("$" + cashMachine.getCurrentUser().getBalance());
             }
         });
 
@@ -104,7 +99,6 @@ public class CashMachineApp extends Application {
         loginGrid.add(field2,1,2);
         loginGrid.add(BTBox, 1,3);
     }
-
 
 
 
@@ -130,7 +124,6 @@ public class CashMachineApp extends Application {
 
         Image insertImg = new Image("insert.gif");
         Image withdrawImg = new Image("withdraw.gif");
-        Image badImg = new Image("nope.jpg");
 
         Button doneInsert = new Button("Deposit");
         Button doneWithdraw = new Button("Withdraw");
@@ -186,11 +179,12 @@ public class CashMachineApp extends Application {
         });
         doneWithdraw.setOnAction(e -> {
             //oops2.setText("You don't have enough money!");
-            balance -= Double.parseDouble(moneyField.getText());
-            balanceNum.setText("$" + balance);
-            cashMachine.getBank().withdraw(cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData(), Double.parseDouble(moneyField.getText()));
+            //balance -= Double.parseDouble(moneyField.getText());
+            //balanceNum.setText("$"+cashMachine.getCurrentUser());
+            //cashMachine.withdraw(Double.parseDouble(moneyField.getText()));
+            cashMachine.withdraw(Double.parseDouble(moneyField.getText()));
+            balanceNum.setText("$"+cashMachine.getCurrentUser().getBalance());
             moneyStage.close();
-
 
         });
 
@@ -209,10 +203,11 @@ public class CashMachineApp extends Application {
                 popup.hide();
         });
         doneInsert.setOnAction(e -> {
-            balance += Double.parseDouble(moneyField.getText());
-            balanceNum.setText("$" + balance);
+            //balance += Double.parseDouble(moneyField.getText());
             //cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().setBalance(balance);
-            cashMachine.getBank().deposit(cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData(), Double.parseDouble(moneyField.getText()));
+            //cashMachine.getBank().deposit(cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData(), Double.parseDouble(moneyField.getText()));
+            cashMachine.deposit(Double.parseDouble(moneyField.getText()));
+            balanceNum.setText("$"+cashMachine.getCurrentUser().getBalance());
             moneyStage.close();
         });
 
@@ -229,128 +224,6 @@ public class CashMachineApp extends Application {
         mainGrid.add(buttonHBox,0,5);
         mainGrid.add(warningHBox,0,6);
         mainGrid.add(logOutHBox,0,7);
-
-        //mainGrid.setGridLinesVisible(true);
-    }
-
-
-
-    private void setUpMainGrid2(){
-        premGrid.setId("premGrid");
-        premGrid.setAlignment(Pos.CENTER);
-        premGrid.setHgap(10);
-        premGrid.setVgap(5);
-        premGrid.setPadding(new Insets(40,20,40,20));
-
-        Text greetTxt = new Text("Hi, regular user");
-        Text balanceTxt = new Text("Your current balance is: ");
-        Label balanceNum = new Label("$1000.00");
-        Button withdrawBT= new Button("Withdraw");
-        Button depositBT= new Button("Deposit");
-        Button logOutBT= new Button("Log Out");
-        HBox buttonHBox = new HBox(10);
-        HBox logOutHBox = new HBox(10);
-        HBox warningHBox = new HBox(10);
-        Text oops2 = new Text();
-        Stage moneyStage = new Stage();
-        VBox moneyVBox = new VBox();
-        TextField moneyField = new TextField();
-
-        Image insertImg = new Image("insert.gif");
-        Image withdrawImg = new Image("withdraw.gif");
-        Image badImg = new Image("nope.jpg");
-
-        Button doneInsert = new Button("Deposit");
-        Button doneWithdraw = new Button("Withdraw");
-
-
-        greetTxt.setId("greetTxt");
-        balanceTxt.setId("balanceTxt");
-
-        balanceNum.setPrefSize(300,50);
-        balanceNum.setAlignment(Pos.CENTER_RIGHT);
-        balanceNum.setId("balanceNum");
-
-        withdrawBT.setPrefSize(90,50);
-        depositBT.setPrefSize(90,50);
-
-        withdrawBT.setId("wBT");
-        depositBT.setId("dBT");
-        logOutBT.setId("outBT");
-        logOutBT.setOnAction(e -> {
-            oops2.setText("");
-            vbox.getChildren().clear();
-            vbox.getChildren().add(loginGrid);
-        });
-
-        buttonHBox.getChildren().add(withdrawBT);
-        buttonHBox.getChildren().add(depositBT);
-        buttonHBox.setAlignment(Pos.CENTER_RIGHT);
-        buttonHBox.setPadding(new Insets(10,0, 10,0));
-        oops2.setId("warning");
-
-        //pop up
-        Popup popup = new Popup();
-        moneyVBox.setId("moneyVBox");
-        moneyField.setId("moneyField");
-        moneyField.setPrefWidth(220);
-        doneInsert.setPrefSize(220,30);
-        doneWithdraw.setPrefSize(220,30);
-        Scene moneyScene = new Scene(moneyVBox);
-        moneyScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-
-        withdrawBT.setOnAction(e -> {
-            oops2.setText("");
-            if (!popup.isShowing()){
-                moneyVBox.getChildren().clear();
-                moneyStage.setTitle("Please Enter Amount");
-                ImageView imageView1 = new ImageView(withdrawImg);
-                moneyVBox.getChildren().addAll(imageView1,moneyField,doneWithdraw);
-                moneyStage.setScene(moneyScene);
-                moneyStage.show();
-                popup.show(moneyStage);
-            } else
-                popup.hide();
-        });
-        doneWithdraw.setOnAction(e -> {
-            oops2.setText("You don't have enough money!");
-            moneyStage.close();
-
-        });
-
-
-        depositBT.setOnAction(e -> {
-            oops2.setText("");
-            if (!popup.isShowing()){
-                moneyVBox.getChildren().clear();
-                moneyStage.setTitle("Please Insert Money");
-                ImageView imageView2 = new ImageView(insertImg);
-                moneyVBox.getChildren().addAll(imageView2,moneyField,doneInsert);
-                moneyStage.setScene(moneyScene);
-                moneyStage.show();
-                popup.show(moneyStage);
-            } else
-                popup.hide();
-        });
-        doneInsert.setOnAction(e -> {
-
-            //this will close the window
-            moneyStage.close();
-        });
-
-        logOutHBox.setAlignment(Pos.CENTER_RIGHT);
-        logOutHBox.getChildren().add(logOutBT);
-        warningHBox.setAlignment(Pos.CENTER_RIGHT);
-        warningHBox.setPadding(new Insets(0,5,0,0));
-        warningHBox.getChildren().add(oops2);
-
-
-        premGrid.add(greetTxt,0,0);
-        premGrid.add(balanceTxt,0,2);
-        premGrid.add(balanceNum,0,4);
-        premGrid.add(buttonHBox,0,5);
-        premGrid.add(warningHBox,0,6);
-        premGrid.add(logOutHBox,0,7);
 
         //mainGrid.setGridLinesVisible(true);
     }

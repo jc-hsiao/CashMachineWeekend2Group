@@ -1,6 +1,7 @@
 //fake merge test
 package rocks.zipcode.atm.bank;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import rocks.zipcode.atm.ActionResult;
 
 import java.text.DecimalFormat;
@@ -55,9 +56,8 @@ public class Bank {
     }
 
     public ActionResult<AccountData> deposit(AccountData accountData, Double amount) {
-
-        if (amount <= 0) {
-            return ActionResult.fail("Withdraw failed can not except negative amount ");
+        if (amount < 0) {
+            return ActionResult.fail("Deposit failed can not except negative amount ");
         }
         Account account = accounts.get(accountData.getId());
         account.deposit(amount);
@@ -67,15 +67,21 @@ public class Bank {
 
     public ActionResult<AccountData> withdraw(AccountData accountData, Double amount) {
         Account account = accounts.get(accountData.getId());
-        if (amount <= 0) {
+
+        if (amount < 0) {
             return ActionResult.fail("Withdraw failed can not except negative amount ");
+
         } else if (account.isPremium()) {
+            account.withdraw(amount);
             return ActionResult.successWithMessage("Overdraft paid!", account.getAccountData());
+
         } else if ((!account.isPremium()) && (accountData.getBalance() - amount <= 0) || (account.isPremium()) && (accountData.getBalance() - amount >= -100)) {
             return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
         }
-        return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
-    }
+        account.withdraw(amount);
+        return ActionResult.success(account.getAccountData());
+        //return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
+
     }
 
-
+}

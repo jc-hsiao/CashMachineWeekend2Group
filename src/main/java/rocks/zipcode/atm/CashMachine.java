@@ -19,15 +19,9 @@ public class CashMachine {
         return bank;
     }
 
-    public int getCurrentUser() {
-        return currentUser;
+    public AccountData getCurrentUser() {
+        return accountData;
     }
-
-    public void setCurrentUser(int currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    private int currentUser;
 
     public CashMachine(Bank bank) {
         this.bank = bank;
@@ -37,6 +31,7 @@ public class CashMachine {
         accountData = data;
     };
 
+
     public void login(int id, String pin) {
         tryCall(
                 () -> bank.getAccountById(id,pin),
@@ -45,21 +40,21 @@ public class CashMachine {
     }
 
     public void deposit(double amount) {
-        if ((accountData != null) && (amount>0)) {
+        //if ((accountData != null) && (amount>0)) {
             tryCall(
                     () -> bank.deposit(accountData, amount),
                     update
             );
-        }
+        //}
     }
 
     public void withdraw(double amount) {
-        if ((accountData != null) && (amount>0)) {
-            tryCall(
+        //if ((accountData != null) && (amount>0)) {
+        tryCall(
                     () -> bank.withdraw(accountData, amount),
                     update
             );
-        }
+        //}
     }
 
     public void exit() {
@@ -85,7 +80,6 @@ public class CashMachine {
                 specialMessage = result.getSpecialMessage();
                 errorMessage = result.getErrorMessage();
                 postAction.accept(data);
-
             } else {
                 String errorMessage = result.getErrorMessage();
                 throw new RuntimeException(errorMessage);
