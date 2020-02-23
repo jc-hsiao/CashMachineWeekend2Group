@@ -12,9 +12,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * @author ZipCodeWilmington
  */
@@ -27,7 +24,6 @@ public class CashMachineApp extends Application {
     GridPane mainGrid = new GridPane();
     Label balanceNum = new Label("--");
     Text greetTxt = new Text("Hi, user");
-    //private static final Logger LOGGER = Logger.getLogger(CashMachineApp.class.getName());
 
 
     //========= main set up =========//
@@ -141,6 +137,7 @@ public class CashMachineApp extends Application {
         logOutBT.setId("outBT");
         logOutBT.setOnAction(e -> {
             oops2.setText("");
+            cashMachine.exit();//clean up user data just in case
             vbox.getChildren().clear();
             vbox.getChildren().add(loginGrid);
         });
