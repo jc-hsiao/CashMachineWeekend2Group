@@ -47,21 +47,17 @@ public class CashMachine {
     }
 
     public void deposit(String amount) {
-        //if ((accountData != null) && (amount>0)) {
-            tryCall(
-                    () -> bank.deposit(accountData, amount),
-                    update
-            );
-        //}
+        tryCall(
+                () -> bank.deposit(accountData, amount),
+                update
+        );
     }
 
     public void withdraw(String amount) {
-        //if ((accountData != null) && (amount>0)) {
         tryCall(
                     () -> bank.withdraw(accountData, amount),
                     update
-            );
-        //}
+        );
     }
 
     public void createAccount(String fullName, String email, String pin) {

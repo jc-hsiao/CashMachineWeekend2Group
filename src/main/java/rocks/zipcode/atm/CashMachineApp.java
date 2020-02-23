@@ -7,16 +7,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
-import rocks.zipcode.atm.bank.AccountData;
 import rocks.zipcode.atm.bank.Bank;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import rocks.zipcode.atm.bank.PremiumAccount;
-import sun.security.util.Password;
-
-import javax.swing.*;
 import java.text.DecimalFormat;
+
+// tell user their id when user sign up
+
+// check premium and print gold name
+
+// tests
 
 /**
  * @author ZipCodeWilmington
@@ -74,22 +75,26 @@ public class CashMachineApp extends Application {
         loginBT.setOnAction(e -> {
             cashMachine.login(idField.getText(), passwordField.getText());
 
-            if (cashMachine.getErrorMessage() != null){
+            if (cashMachine.getErrorMessage()!=null){
                 oops.setText(cashMachine.getErrorMessage());
             } else {
                 vbox.getChildren().clear();
                 vbox.getChildren().add(mainGrid);
                 greetTxt.setText("Hello! "+cashMachine.getCurrentUser().getName());
                 balanceNum.setText("$" + new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
-                greetTxt.setId("greetTxtPremium");
 
+                if(cashMachine.getCurrentUser().isPremium())
+                    greetTxt.setId("greetTxtPremium");
+                else
+                    greetTxt.setId("greetTxt");
+
+                //check if the balance of this user is kinda low, if it is, set the balance text to red
+                if(cashMachine.getCurrentUser().getBalance() > tooLow)
+                    balanceNum.setId("balanceNum");
+                else
+                    balanceNum.setId("balanceNum-danger");
             }
 
-            //check if the balance of this user is kinda low, if it is, set the balance text to red
-            if(cashMachine.getCurrentUser().getBalance() > tooLow)
-                balanceNum.setId("balanceNum");
-            else
-                balanceNum.setId("balanceNum-danger");
         });
         newAccountBT.setOnAction((e -> {
             vbox.getChildren().clear();
@@ -126,7 +131,7 @@ public class CashMachineApp extends Application {
         HBox buttonHBox = new HBox(10);
         HBox logOutHBox = new HBox(10);
         HBox warningHBox = new HBox(10);
-        Text oops2 = new Text();
+        Text oops = new Text();
         Stage moneyStage = new Stage();
         VBox moneyVBox = new VBox();
         TextField moneyField = new TextField();
@@ -139,7 +144,7 @@ public class CashMachineApp extends Application {
         withdrawBT.setId("wBT");
         depositBT.setId("dBT");
         logOutBT.setId("outBT");
-        oops2.setId("warning");
+        oops.setId("warning");
 
         balanceNum.setPrefSize(300,50);
         balanceNum.setAlignment(Pos.CENTER_RIGHT);
@@ -166,7 +171,7 @@ public class CashMachineApp extends Application {
 
         // :: action events for logout button :: //
         logOutBT.setOnAction(e -> {
-            oops2.setText("");                  //reset error message when the current user log out
+            oops.setText("");                  //reset error message when the current user log out
             cashMachine.exit();                 //clean up user data just in case
             vbox.getChildren().clear();         //wash out everything on the screen
             vbox.getChildren().add(loginGrid);  //bring the login panel back
@@ -174,7 +179,7 @@ public class CashMachineApp extends Application {
 
         // :: action events for withdraw button which creates pop-up :: //
         withdrawBT.setOnAction(e -> {
-            oops2.setText("");
+            oops.setText("");
             if (!popup.isShowing()){
                 moneyField.clear();
                 moneyVBox.getChildren().clear();
@@ -189,9 +194,6 @@ public class CashMachineApp extends Application {
 
         // :: action events for withdraw button that will perform actual withdraw :: //
         doneWithdraw.setOnAction(e -> {
-            //balance -= Double.parseDouble(moneyField.getText());
-            //balanceNum.setText("$"+cashMachine.getCurrentUser());
-            //cashMachine.withdraw(Double.parseDouble(moneyField.getText()));
             cashMachine.withdraw(moneyField.getText());
             balanceNum.setText("$"+ new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
 
@@ -200,16 +202,16 @@ public class CashMachineApp extends Application {
 
             //print special overdraft message "Overdraft warning!" if cashMachine has any special message
             if(cashMachine.getErrorMessage() != null)
-                oops2.setText(cashMachine.getErrorMessage());
+                oops.setText(cashMachine.getErrorMessage());
             else
-                oops2.setText(cashMachine.getSpecialMessage());
+                oops.setText(cashMachine.getSpecialMessage());
 
             moneyStage.close();
         });
 
         // :: deposit action events which will bring a pop up :: //
         depositBT.setOnAction(e -> {
-            oops2.setText("");
+            oops.setText("");
             if (!popup.isShowing()){
                 moneyField.clear();
                 moneyVBox.getChildren().clear();
@@ -224,18 +226,15 @@ public class CashMachineApp extends Application {
 
         // :: action events for deposit button that will perform actual deposit :: //
         doneInsert.setOnAction(e -> {
-            //balance += Double.parseDouble(moneyField.getText());
-            //cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().setBalance(balance);
-            //cashMachine.getBank().deposit(cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData(), Double.parseDouble(moneyField.getText()));
             cashMachine.deposit(moneyField.getText());
             balanceNum.setText("$"+new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
             if(cashMachine.getCurrentUser().getBalance() > tooLow)
                 balanceNum.setId("balanceNum");
-            oops2.setText(cashMachine.getErrorMessage());
+            oops.setText(cashMachine.getErrorMessage());
             moneyStage.close();
         });
 
-        warningHBox.getChildren().add(oops2);
+        warningHBox.getChildren().add(oops);
         buttonHBox.getChildren().add(withdrawBT);
         buttonHBox.getChildren().add(depositBT);
         mainGrid.add(greetTxt,0,0);
@@ -264,27 +263,40 @@ public class CashMachineApp extends Application {
         TextField lastNameField = new TextField();
         TextField emailField = new TextField();
         PasswordField setPinField = new PasswordField();
+        Text oops = new Text();
 
         singUpInstructions.setId("signUpInstructions");
         finishBT.setId("loginBT");
         cancelBT.setId("loginBT");
+        oops.setId("warning");
 
         buttonHBox.setAlignment(Pos.CENTER_RIGHT);
         buttonHBox.setPadding(new Insets(10,0, 10,0));
 
-        // :: action events for logout button :: //
         cancelBT.setOnAction(e -> {
-            cashMachine.exit();                 //clean up user data just in case
             vbox.getChildren().clear();         //wash out everything on the screen
             vbox.getChildren().add(loginGrid);  //bring the login panel back
+            firstNameField.setText("");
+            lastNameField.setText("");
+            emailField.setText("");
+            setPinField.setText("");
+            oops.setText("");
         });
 
         // :: action events for withdraw button which creates pop-up :: //
         finishBT.setOnAction(e -> {
             cashMachine.createAccount( firstNameField.getText() + " " + lastNameField.getText(), emailField.getText(),  setPinField.getText());
-            vbox.getChildren().clear();         //wash out everything on the screen
-            vbox.getChildren().add(loginGrid);  //bring the login panel back
-            });
+            oops.setText(cashMachine.getErrorMessage());
+            if(cashMachine.getErrorMessage() == null) {
+                vbox.getChildren().clear();         //wash out everything on the screen
+                vbox.getChildren().add(loginGrid);  //bring the login panel back
+                firstNameField.setText("");
+                lastNameField.setText("");
+                emailField.setText("");
+                setPinField.setText("");
+                oops.setText("");
+            }
+        });
 
         Label firstNameLabel = new Label("First Name");
         Label lastNameLabel = new Label("Last Name");
@@ -302,7 +314,8 @@ public class CashMachineApp extends Application {
         signUpGrid.add(lastNameField,1,3);
         signUpGrid.add(emailField,1,4);
         signUpGrid.add(setPinField,1,5);
-        signUpGrid.add(buttonHBox,1,6);
+        signUpGrid.add(oops, 1,6);
+        signUpGrid.add(buttonHBox,1,7);
 
         //this is for grid layout debugging
         //signUpGrid.setGridLinesVisible(true);

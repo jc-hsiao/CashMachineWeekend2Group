@@ -78,11 +78,18 @@ GridPane{
     -fx-background-color: rgba(255,255,255,0.0);
 }
 
-
+/*
 #greetTxt{
     -fx-font: 25px "Arial Black", Gadget, sans-serif;
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.8) , 0,0,0,1 );
     -fx-fill: linear-gradient(from 0% 0% to 100% 100%, repeat, darkslategrey 0%, seagreen 50%);
+}
+*/
+
+#greetTxt{
+    -fx-font: 25px "Arial Black", Gadget, sans-serif;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.8) , 0,0,0,1 );
+    -fx-fill: #323232;
 }
 
 #greetTxtPremium{
