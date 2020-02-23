@@ -19,9 +19,6 @@ public final class AccountData {
         this.pin = pin;
     }
 
-    public void setBalance(Double newBalance){
-        this.balance = newBalance;
-    }
 
     public int getId() {
         return id;

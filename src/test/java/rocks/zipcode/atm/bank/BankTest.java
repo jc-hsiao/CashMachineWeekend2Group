@@ -4,10 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import rocks.zipcode.atm.ActionResult;
 
-import javax.swing.*;
-
-import static org.junit.Assert.*;
-
 public class BankTest {
 
     @Test
@@ -84,7 +80,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
         zipBank.accounts.put(121,oliverTwist);
-        ActionResult<AccountData> actual =zipBank.getAccountById(oliverTwist.getAccountData().getId()+"","1885");
+        ActionResult<AccountData> actual =zipBank.login(oliverTwist.getAccountData().getId()+"","1885");
         Assert.assertEquals(true,actual.isSuccess());
 
     }
@@ -94,7 +90,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
         zipBank.accounts.put(121,oliverTwist);
-        ActionResult<AccountData> actual =zipBank.getAccountById(oliverTwist.getAccountData().getId()+"","1111");
+        ActionResult<AccountData> actual =zipBank.login(oliverTwist.getAccountData().getId()+"","1111");
         Assert.assertEquals("Invalid login!",actual.getErrorMessage());
 
     }

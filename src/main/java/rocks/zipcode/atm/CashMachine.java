@@ -41,7 +41,7 @@ public class CashMachine {
 
     public void login(String id, String pin) {
         tryCall(
-                () -> bank.getAccountById(id,pin),
+                () -> bank.login(id,pin),
                 update
         );
     }
@@ -62,6 +62,13 @@ public class CashMachine {
                     update
             );
         //}
+    }
+
+    public void createAccount(String fullName, String email, String pin) {
+        tryCall(
+                () -> bank.createAccount(fullName, email, pin),
+                update
+        );
     }
 
     public void exit() {
