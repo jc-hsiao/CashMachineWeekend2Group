@@ -42,7 +42,7 @@ public class Bank {
 
     }
 
-    public ActionResult<AccountData> getAccountById(String id, String pin) {
+    public ActionResult<AccountData> login(String id, String pin) {
         Account account;
         try {
             account = accounts.get(Integer.parseInt(id));
@@ -100,7 +100,11 @@ public class Bank {
         account.withdraw(amount);
         return ActionResult.success(account.getAccountData());
         //return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
-
     }
 
+    public ActionResult<AccountData> createAccount(String fullName, String email, String pin) {
+        AccountData accData = new AccountData(accounts.size(), fullName, email, 0.00, pin );
+        accounts.put(accounts.size(), new BasicAccount(accData));
+        return ActionResult.success(accData);
+    }
 }
