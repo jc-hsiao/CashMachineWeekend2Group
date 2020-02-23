@@ -73,11 +73,10 @@ public class CashMachineApp extends Application {
             } else {
                 vbox.getChildren().clear();
                 vbox.getChildren().add(mainGrid);
-                //cashMachine.setCurrentUser(Integer.parseInt(field.getText()));
-                //userName = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getName();
-                //balance = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getBalance();
                 greetTxt.setText("Hello! "+cashMachine.getCurrentUser().getName());
                 balanceNum.setText("$" + new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
+                greetTxt.setId("greetTxtPremium");
+
             }
 
             //check if the balance of this user is kinda low, if it is, set the balance text to red
@@ -126,7 +125,6 @@ public class CashMachineApp extends Application {
         Button doneInsert = new Button("Deposit");
         Button doneWithdraw = new Button("Withdraw");
 
-        greetTxt.setId("greetTxt");
         balanceTxt.setId("balanceTxt");
         withdrawBT.setId("wBT");
         depositBT.setId("dBT");
