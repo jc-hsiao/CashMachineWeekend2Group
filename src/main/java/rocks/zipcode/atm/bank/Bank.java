@@ -22,14 +22,11 @@ public class Bank {
                 "Aarti Kansal", "Adam Bennet", "April Howard", "Chip Fody", "Chris Farmer", "Corey Williams",
                 "David Comer", "David Kelly", "Destiny Bond", "Emily Beech", "Giles Bradford", "Greg Davis",
                 "Han Lin", "James Churu", "James Wilkinson"
-
         };
-
 
         for (int i = 0; i < 15; i++) {
             this.accounts.put(i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0] + "@zipcode.com", 100.00, "1234")));
         }
-
 
         String[] basicUserName = {
                 "Jeremy McCray", "Kevin Romero", "Khalil Crumpler", "Leila Hsiao", "Matthew Ascone",
@@ -71,11 +68,16 @@ public class Bank {
         if (amount < 0) {
             return ActionResult.fail("Withdraw failed can not except negative amount ");
 
-        } else if (account.isPremium()) {
-            account.withdraw(amount);
-            return ActionResult.successWithMessage("Overdraft paid!", account.getAccountData());
-
-        } else if ((!account.isPremium()) && (accountData.getBalance() - amount <= 0) || (account.isPremium()) && (accountData.getBalance() - amount >= -100)) {
+//        } else if ( (!account.isPremium()) && (accountData.getBalance() - amount <= 0) || (account.isPremium()) && (accountData.getBalance() - amount >= -100)) {
+//           return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
+        }else if (account.isPremium() && (amount > account.getBalance())) {
+            if(account.canWithdraw(amount)){
+                account.withdraw(amount);
+                return ActionResult.successWithMessage("Overdraft Warning!",account.getAccountData());
+            }else{
+                return ActionResult.fail("Withdraw failed: " + amount + ". Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
+            }
+        }else if(!account.canWithdraw(amount)){
             return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
         }
         account.withdraw(amount);

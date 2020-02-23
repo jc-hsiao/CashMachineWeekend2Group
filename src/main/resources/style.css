@@ -32,10 +32,10 @@ GridPane{
     -fx-text-fill: #fff;
 }
 .button:hover{
-    -fx-background-color: linear-gradient(goldenrod,darkgoldenrod);
+    -fx-background-color: linear-gradient(goldenrod, #91690b);
 }
 .button:pressed{
-    -fx-background-color: linear-gradient(goldenrod,darkgoldenrod);
+    -fx-background-color: linear-gradient(goldenrod, #91690b);
     -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
 
 }
@@ -54,6 +54,14 @@ GridPane{
     -fx-font-size: 26px;
     -fx-background-color:black;
     -fx-text-fill: white;
+    -fx-font-family: "Courier New", Courier, monospace;
+    -fx-padding: 0px 10px;
+}
+
+#balanceNum-danger{
+    -fx-font-size: 26px;
+    -fx-background-color: black;
+    -fx-text-fill: #f80000;
     -fx-font-family: "Courier New", Courier, monospace;
     -fx-padding: 0px 10px;
 }

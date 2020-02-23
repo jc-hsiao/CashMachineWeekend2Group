@@ -28,10 +28,8 @@ public class CashMachineApp extends Application {
 
     Label balanceNum = new Label("--");
     Text greetTxt = new Text("Hi, regular user");
-    String userName = "";
-    Double balance = 0.0;
 
-    private static final Logger LOGGER = Logger.getLogger(CashMachineApp.class.getName());
+    //private static final Logger LOGGER = Logger.getLogger(CashMachineApp.class.getName());
 
 
     private void setUpUI(){
@@ -168,6 +166,7 @@ public class CashMachineApp extends Application {
             oops2.setText("");
             if (!popup.isShowing()){
                 moneyVBox.getChildren().clear();
+                moneyField.clear();
                 moneyStage.setTitle("Please Enter Amount");
                 ImageView imageView1 = new ImageView(withdrawImg);
                 moneyVBox.getChildren().addAll(imageView1,moneyField,doneWithdraw);
@@ -184,6 +183,8 @@ public class CashMachineApp extends Application {
             //cashMachine.withdraw(Double.parseDouble(moneyField.getText()));
             cashMachine.withdraw(Double.parseDouble(moneyField.getText()));
             balanceNum.setText("$"+cashMachine.getCurrentUser().getBalance());
+            if(cashMachine.getCurrentUser().getBalance() < 10)
+                balanceNum.setId("balanceNum-danger");
             moneyStage.close();
 
         });
@@ -192,6 +193,7 @@ public class CashMachineApp extends Application {
         depositBT.setOnAction(e -> {
             oops2.setText("");
             if (!popup.isShowing()){
+                moneyField.clear();
                 moneyVBox.getChildren().clear();
                 moneyStage.setTitle("Please Insert Money");
                 ImageView imageView2 = new ImageView(insertImg);
@@ -208,6 +210,9 @@ public class CashMachineApp extends Application {
             //cashMachine.getBank().deposit(cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData(), Double.parseDouble(moneyField.getText()));
             cashMachine.deposit(Double.parseDouble(moneyField.getText()));
             balanceNum.setText("$"+cashMachine.getCurrentUser().getBalance());
+            if(cashMachine.getCurrentUser().getBalance() >= 10)
+                balanceNum.setId("balanceNum");
+
             moneyStage.close();
         });
 
