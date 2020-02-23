@@ -15,7 +15,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         PremiumAccount billGates = new PremiumAccount(new AccountData(123, "William Gates", "moe.money@gatesestate.com", 1000.00, "9999"));
         zipBank.accounts.put(123, billGates);
-        ActionResult<AccountData> actual = zipBank.withdraw(billGates.getAccountData(), 1099.0);
+        ActionResult<AccountData> actual = zipBank.withdraw(billGates.getAccountData(), "1099");
         Assert.assertEquals("Overdraft paid!", actual.getSpecialMessage());
         Assert.assertEquals(billGates.getAccountData(), actual.getData());
     }
@@ -25,7 +25,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 1.00, "1885"));
         zipBank.accounts.put(121, oliverTwist);
-        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), 1099.0);
+        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), "1099");
         Assert.assertEquals("Withdraw failed: 1099.Account has: 1.00", actual.getErrorMessage());
 
 
@@ -37,7 +37,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
         zipBank.accounts.put(121, oliverTwist);
-        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), 98.0);
+        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), "98");
         Assert.assertEquals("Withdraw failed: 98.Account has: .00", actual.getErrorMessage());
     }
 
@@ -49,7 +49,7 @@ public class BankTest {
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
        Boolean is=oliverTwist.isPremium();
         zipBank.accounts.put(121, oliverTwist);
-        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), 101.0);
+        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), "101");
         Assert.assertEquals("Withdraw failed: 101.Account has: .00", actual.getErrorMessage());
     }
     @Test
@@ -58,7 +58,7 @@ public class BankTest {
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
         Boolean is=oliverTwist.isPremium();
         zipBank.accounts.put(121, oliverTwist);
-        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), -101.0);
+        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), "-101");
         Assert.assertEquals("Withdraw failed can not except negative amount ", actual.getErrorMessage());
     }
     @Test
@@ -67,7 +67,7 @@ public class BankTest {
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
         Boolean is=oliverTwist.isPremium();
         zipBank.accounts.put(121, oliverTwist);
-        ActionResult<AccountData> actual = zipBank.deposit(oliverTwist.getAccountData(), -101.0);
+        ActionResult<AccountData> actual = zipBank.deposit(oliverTwist.getAccountData(), "-101");
         Assert.assertEquals("Withdraw failed can not except negative amount ", actual.getErrorMessage());
     }
     @Test
@@ -75,7 +75,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
         zipBank.accounts.put(121,oliverTwist);
-        ActionResult<AccountData> actual =zipBank.deposit(oliverTwist.getAccountData(),100.0);
+        ActionResult<AccountData> actual =zipBank.deposit(oliverTwist.getAccountData(),"100");
         Assert.assertEquals(true,actual.isSuccess());
 
     }
@@ -84,7 +84,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
         zipBank.accounts.put(121,oliverTwist);
-        ActionResult<AccountData> actual =zipBank.getAccountById(oliverTwist.getAccountData().getId(),"1885");
+        ActionResult<AccountData> actual =zipBank.getAccountById(oliverTwist.getAccountData().getId()+"","1885");
         Assert.assertEquals(true,actual.isSuccess());
 
     }
@@ -94,8 +94,8 @@ public class BankTest {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
         zipBank.accounts.put(121,oliverTwist);
-        ActionResult<AccountData> actual =zipBank.getAccountById(oliverTwist.getAccountData().getId(),"1111");
-        Assert.assertEquals("Invalid login credentials",actual.getErrorMessage());
+        ActionResult<AccountData> actual =zipBank.getAccountById(oliverTwist.getAccountData().getId()+"","1111");
+        Assert.assertEquals("Invalid login!",actual.getErrorMessage());
 
     }
 

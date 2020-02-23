@@ -19,6 +19,10 @@ public class CashMachine {
         return bank;
     }
 
+    public String getSpecialMessage() {
+        return specialMessage;
+    }
+
     public AccountData getCurrentUser() {
         return accountData;
     }
@@ -32,14 +36,14 @@ public class CashMachine {
     };
 
 
-    public void login(int id, String pin) {
+    public void login(String id, String pin) {
         tryCall(
                 () -> bank.getAccountById(id,pin),
                 update
         );
     }
 
-    public void deposit(double amount) {
+    public void deposit(String amount) {
         //if ((accountData != null) && (amount>0)) {
             tryCall(
                     () -> bank.deposit(accountData, amount),
@@ -48,7 +52,7 @@ public class CashMachine {
         //}
     }
 
-    public void withdraw(double amount) {
+    public void withdraw(String amount) {
         //if ((accountData != null) && (amount>0)) {
         tryCall(
                     () -> bank.withdraw(accountData, amount),

@@ -25,13 +25,12 @@ public class CashMachineApp extends Application {
     VBox vbox = new VBox(10);
     GridPane loginGrid = new GridPane();
     GridPane mainGrid = new GridPane();
-
     Label balanceNum = new Label("--");
-    Text greetTxt = new Text("Hi, regular user");
-
+    Text greetTxt = new Text("Hi, user");
     //private static final Logger LOGGER = Logger.getLogger(CashMachineApp.class.getName());
 
 
+    //========= main set up =========//
     private void setUpUI(){
         vbox.setPrefSize(500, 500);
         vbox.setPadding(new Insets(70, 50,70,50));
@@ -40,9 +39,9 @@ public class CashMachineApp extends Application {
         setUpMainGrid();
 
         vbox.getChildren().add(loginGrid);
-
     }
 
+    //========= codes for log in panel =========//
     private void setUpLoginGrid(){
         loginGrid.setId("grid");
         loginGrid.setAlignment(Pos.CENTER);
@@ -56,35 +55,34 @@ public class CashMachineApp extends Application {
         TextField field = new TextField();
         PasswordField field2 = new PasswordField();
         Button loginBT= new Button("Log in");
-        Button newAccountBT= new Button("New Account");
+        Button newAccountBT= new Button("Sign up");
         HBox BTBox = new HBox(10);
         Text oops = new Text();
 
         header.setId("header");
         field.setPrefColumnCount(15);
         field2.setPrefColumnCount(15);
-        newAccountBT.setId("loginBT");
         BTBox.setAlignment(Pos.BOTTOM_LEFT);
-        BTBox.getChildren().add(newAccountBT);
-
 
         loginBT.setId("loginBT");
+        newAccountBT.setId("loginBT");
         BTBox.setAlignment(Pos.BOTTOM_RIGHT);
         oops.setId("warning");
         BTBox.getChildren().add(oops);
+        BTBox.getChildren().add(newAccountBT);
         BTBox.getChildren().add(loginBT);
         loginBT.setOnAction(e -> {
-            cashMachine.login(Integer.parseInt(field.getText()), field2.getText());
+
+            cashMachine.login(field.getText(), field2.getText());
 
             if (cashMachine.getErrorMessage() != null){
-                oops.setText("Login failed!");
+                oops.setText(cashMachine.getErrorMessage());
             } else {
                 vbox.getChildren().clear();
                 vbox.getChildren().add(mainGrid);
                 //cashMachine.setCurrentUser(Integer.parseInt(field.getText()));
                 //userName = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getName();
                 //balance = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getBalance();
-
                 greetTxt.setText("Hello! "+cashMachine.getCurrentUser().getName());
                 balanceNum.setText("$" + cashMachine.getCurrentUser().getBalance());
             }
@@ -95,7 +93,10 @@ public class CashMachineApp extends Application {
         loginGrid.add(field,1,1);
         loginGrid.add(logInTxt2,0,2);
         loginGrid.add(field2,1,2);
-        loginGrid.add(BTBox, 1,3);
+        loginGrid.add(BTBox, 0,3,2,1);
+
+        //this is for grid debug
+        //loginGrid.setGridLinesVisible(true);
     }
 
 
@@ -108,7 +109,6 @@ public class CashMachineApp extends Application {
         mainGrid.setPadding(new Insets(40,20,40,20));
 
         Text balanceTxt = new Text("Your current balance is: ");
-
         Button withdrawBT= new Button("Withdraw");
         Button depositBT= new Button("Deposit");
         Button logOutBT= new Button("Log Out");
@@ -122,7 +122,6 @@ public class CashMachineApp extends Application {
 
         Image insertImg = new Image("insert.gif");
         Image withdrawImg = new Image("withdraw.gif");
-
         Button doneInsert = new Button("Deposit");
         Button doneWithdraw = new Button("Withdraw");
 
@@ -181,10 +180,16 @@ public class CashMachineApp extends Application {
             //balance -= Double.parseDouble(moneyField.getText());
             //balanceNum.setText("$"+cashMachine.getCurrentUser());
             //cashMachine.withdraw(Double.parseDouble(moneyField.getText()));
-            cashMachine.withdraw(Double.parseDouble(moneyField.getText()));
+            cashMachine.withdraw(moneyField.getText());
             balanceNum.setText("$"+cashMachine.getCurrentUser().getBalance());
             if(cashMachine.getCurrentUser().getBalance() < 10)
                 balanceNum.setId("balanceNum-danger");
+
+            if(cashMachine.getErrorMessage() != null)
+                oops2.setText(cashMachine.getErrorMessage());
+            else
+                oops2.setText(cashMachine.getSpecialMessage());
+
             moneyStage.close();
 
         });
@@ -208,11 +213,11 @@ public class CashMachineApp extends Application {
             //balance += Double.parseDouble(moneyField.getText());
             //cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().setBalance(balance);
             //cashMachine.getBank().deposit(cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData(), Double.parseDouble(moneyField.getText()));
-            cashMachine.deposit(Double.parseDouble(moneyField.getText()));
+            cashMachine.deposit(moneyField.getText());
             balanceNum.setText("$"+cashMachine.getCurrentUser().getBalance());
             if(cashMachine.getCurrentUser().getBalance() >= 10)
                 balanceNum.setId("balanceNum");
-
+            oops2.setText(cashMachine.getErrorMessage());
             moneyStage.close();
         });
 
