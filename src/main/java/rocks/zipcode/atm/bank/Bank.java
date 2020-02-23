@@ -25,7 +25,7 @@ public class Bank {
         };
 
         for (int i = 0; i < 15; i++) {
-            this.accounts.put(i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0] + "@zipcode.com", 100.00, "1234")));
+            this.accounts.put(i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0] + "@zipcode.com", 1000.00, "1234")));
         }
 
         String[] basicUserName = {

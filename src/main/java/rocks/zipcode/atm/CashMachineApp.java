@@ -7,11 +7,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
+import rocks.zipcode.atm.bank.AccountData;
 import rocks.zipcode.atm.bank.Bank;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import rocks.zipcode.atm.bank.PremiumAccount;
 
+import javax.swing.*;
 import java.text.DecimalFormat;
 
 /**
@@ -24,6 +27,7 @@ public class CashMachineApp extends Application {
     VBox vbox = new VBox(10);
     GridPane loginGrid = new GridPane();
     GridPane mainGrid = new GridPane();
+    GridPane signUpGrid = new GridPane();
     Label balanceNum = new Label("--");
     Text greetTxt = new Text("Hi, user");
     int tooLow = 10;
@@ -34,6 +38,7 @@ public class CashMachineApp extends Application {
         vbox.setPadding(new Insets(70, 50,70,50));
         setUpLoginGrid();
         setUpMainGrid();
+        setupSignUpGrid();
         vbox.getChildren().add(loginGrid);
     }
 
@@ -86,6 +91,10 @@ public class CashMachineApp extends Application {
             else
                 balanceNum.setId("balanceNum-danger");
         });
+        newAccountBT.setOnAction((e -> {
+            vbox.getChildren().clear();
+            vbox.getChildren().add(signUpGrid);
+        }));
 
         HorizontalBox.getChildren().add(oops);
         HorizontalBox.getChildren().add(newAccountBT);
@@ -239,6 +248,68 @@ public class CashMachineApp extends Application {
 
         //this is for grid layout debugging
         //mainGrid.setGridLinesVisible(true);
+    }
+
+    public void setupSignUpGrid(){
+        signUpGrid.setId("grid");
+        signUpGrid.setAlignment(Pos.CENTER);
+        signUpGrid.setHgap(10);
+        signUpGrid.setVgap(5);
+        signUpGrid.setPadding(new Insets(40,20,30,20));
+
+        Text singUpInstructions = new Text("Enter new account information below:");
+        Button finishBT = new Button("Finish");
+        Button cancelBT = new Button("Cancel");
+        HBox buttonHBox = new HBox(10);
+        TextField firstNameField = new TextField();
+        TextField lastNameField = new TextField();
+        TextField emailField = new TextField();
+        TextField initialDepositField = new TextField();
+        TextField setPinField = new TextField();
+        TextField premiumOrBasicField = new TextField();
+
+        singUpInstructions.setId("signUpInstructions");
+        finishBT.setId("loginBT");
+        cancelBT.setId("loginBT");
+
+        buttonHBox.setAlignment(Pos.CENTER_RIGHT);
+        buttonHBox.setPadding(new Insets(10,0, 10,0));
+
+        // :: action events for logout button :: //
+        cancelBT.setOnAction(e -> {
+            cashMachine.exit();                 //clean up user data just in case
+            vbox.getChildren().clear();         //wash out everything on the screen
+            vbox.getChildren().add(loginGrid);  //bring the login panel back
+        });
+
+        // :: action events for withdraw button which creates pop-up :: //
+        finishBT.setOnAction(e -> {
+            //check for basic or premium
+            //if (premiumOrBasicField.getText().toLowerCase().equals("premium"){
+                //add basic account
+                //cashMachine.getBank().createAccount((cashMachine.getBank().accounts.size(), new PremiumAccount(new AccountData(cashMachine.getBank().accounts.size(), firstNameField.getText() + " " + lastNameField.getText(), emailField.getText().split(" ")[0] + "@zipcode.com", Double.parseDouble(initialDepositField.getText()), setPinField.getText()))
+            });
+
+        Label firstNameLabel = new Label("First Name");
+        Label lastNameLabel = new Label("Last Name");
+        Label emailLabel = new Label("Email Address");
+        Label setPinLabel = new Label("New PIN");
+        buttonHBox.getChildren().add(cancelBT);
+        buttonHBox.getChildren().add(finishBT);
+
+        signUpGrid.add(firstNameLabel,0,2);
+        signUpGrid.add(lastNameLabel,0,3);
+        signUpGrid.add(emailLabel,0,4);
+        signUpGrid.add(setPinLabel,0,5);
+        signUpGrid.add(singUpInstructions,1,1);
+        signUpGrid.add(firstNameField,1,2);
+        signUpGrid.add(lastNameField,1,3);
+        signUpGrid.add(emailField,1,4);
+        signUpGrid.add(setPinField,1,5);
+        signUpGrid.add(buttonHBox,1,6);
+
+        //this is for grid layout debugging
+        //signUpGrid.setGridLinesVisible(true);
     }
 
 
