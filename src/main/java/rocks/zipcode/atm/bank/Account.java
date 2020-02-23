@@ -24,11 +24,11 @@ public abstract class Account {
         return accountData;
     }
 
-    public void deposit(int amount) {
+    public void deposit(double amount) {
         updateBalance(getBalance() + amount);
     }
 
-    public boolean withdraw(int amount) {
+    public boolean withdraw(double amount) {
         if (canWithdraw(amount)) {
             updateBalance(getBalance() - amount);
             return true;
@@ -37,7 +37,7 @@ public abstract class Account {
         }
     }
 
-    protected boolean canWithdraw(int amount) {
+    protected boolean canWithdraw(double amount) {
         if(this.isPremium == true) {
             return getBalance() >= amount - 100;
         } else {
@@ -48,6 +48,9 @@ public abstract class Account {
     public Double getBalance() {
         return accountData.getBalance();
     }
+
+
+
 
     private void updateBalance(Double newBalance) {
         accountData = new AccountData(accountData.getId(), accountData.getName(), accountData.getEmail(),
