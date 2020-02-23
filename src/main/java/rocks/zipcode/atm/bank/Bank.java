@@ -25,7 +25,7 @@ public class Bank {
         };
 
         for (int i = 0; i < 15; i++) {
-            this.accounts.put(i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0] + "@zipcode.com", 100.00, "1234")));
+            this.accounts.put(i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0] + "@zipcode.com", 1000.00, "1234")));
         }
 
         String[] basicUserName = {
@@ -35,14 +35,14 @@ public class Bank {
         };
 
         int counter = 0;
-        for (int i = 16; i < 29; i++) {
+        for (int i = 15; i < 29; i++) {
             accounts.put(i, new BasicAccount(new AccountData(i, basicUserName[counter], basicUserName[counter].split(" ")[0] + "@zipcode.com", 100.00, "1234")));
             counter++;
         }
 
     }
 
-    public ActionResult<AccountData> getAccountById(String id, String pin) {
+    public ActionResult<AccountData> login(String id, String pin) {
         Account account;
         try {
             account = accounts.get(Integer.parseInt(id));
@@ -100,7 +100,11 @@ public class Bank {
         account.withdraw(amount);
         return ActionResult.success(account.getAccountData());
         //return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
-
     }
 
+    public ActionResult<AccountData> createAccount(String fullName, String email, String pin) {
+        AccountData accData = new AccountData(accounts.size(), fullName, email, 100.00, pin );
+        accounts.put(accounts.size(), new BasicAccount(accData));
+        return ActionResult.success(accData);
+    }
 }
