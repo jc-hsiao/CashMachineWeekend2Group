@@ -58,12 +58,17 @@ public class CashMachineApp extends Application {
         TextField field = new TextField();
         PasswordField field2 = new PasswordField();
         Button loginBT= new Button("Log in");
+        Button newAccountBT= new Button("New Account");
         HBox BTBox = new HBox(10);
         Text oops = new Text();
 
         header.setId("header");
         field.setPrefColumnCount(15);
         field2.setPrefColumnCount(15);
+        newAccountBT.setId("loginBT");
+        BTBox.setAlignment(Pos.BOTTOM_LEFT);
+        BTBox.getChildren().add(newAccountBT);
+
 
         loginBT.setId("loginBT");
         BTBox.setAlignment(Pos.BOTTOM_RIGHT);
