@@ -8,7 +8,7 @@ public final class AccountData {
     private final int id;
     private final String name;
     private final String email;
-    private final Double balance;
+    private Double balance;
     protected final String pin;
 
     AccountData(int id, String name, String email, Double balance, String pin) {
@@ -17,6 +17,10 @@ public final class AccountData {
         this.email = email;
         this.balance = balance;
         this.pin = pin;
+    }
+
+    public void setBalance(Double newBalance){
+        this.balance = newBalance;
     }
 
     public int getId() {

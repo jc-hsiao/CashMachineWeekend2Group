@@ -31,7 +31,7 @@ public class Bank {
 
 
         String[] basicUserName = {
-                "Jeremey McCray", "Kevin Romero", "Khalil Crumpler", "Leila Hsiao", "Matthew Ascone",
+                "Jeremy McCray", "Kevin Romero", "Khalil Crumpler", "Leila Hsiao", "Matthew Ascone",
                 "Maurice Russ", "Moe Aydin", "Raheel Uppal", "Sandeep Narayana Mangalam",
                 "Sandy Setiawan", "Ujjwal Shrestha", "Von Le", "Zanetta Norris", "Zeth Kane"
 
@@ -54,7 +54,7 @@ public class Bank {
         }
     }
 
-    public ActionResult<AccountData> deposit(AccountData accountData, int amount) {
+    public ActionResult<AccountData> deposit(AccountData accountData, Double amount) {
 
         if (amount <= 0) {
             return ActionResult.fail("Withdraw failed can not except negative amount ");
@@ -65,7 +65,7 @@ public class Bank {
         return ActionResult.success(account.getAccountData());
     }
 
-    public ActionResult<AccountData> withdraw(AccountData accountData, int amount) {
+    public ActionResult<AccountData> withdraw(AccountData accountData, Double amount) {
         Account account = accounts.get(accountData.getId());
         if (amount <= 0) {
             return ActionResult.fail("Withdraw failed can not except negative amount ");
