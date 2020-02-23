@@ -41,6 +41,8 @@ public class BankTest {
         Assert.assertEquals("Withdraw failed: 98.Account has: .00", actual.getErrorMessage());
     }
 
+
+
     @Test
     public void withdrawNegativeTestPremiumOverDraft() {
         Bank zipBank = new Bank();
@@ -68,14 +70,34 @@ public class BankTest {
         ActionResult<AccountData> actual = zipBank.deposit(oliverTwist.getAccountData(), -101);
         Assert.assertEquals("Withdraw failed can not except negative amount ", actual.getErrorMessage());
     }
-
     @Test
-    public void depositTest() {
+    public  void updateTest() {
         Bank zipBank = new Bank();
         BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        Boolean is=oliverTwist.isPremium;
-        zipBank.accounts.put(121, oliverTwist);
-        ActionResult<AccountData> actual = zipBank.deposit(oliverTwist.getAccountData(), 10);
-        Assert.assertEquals("Withdraw failed can not except negative amount ", actual.getErrorMessage());
+        zipBank.accounts.put(121,oliverTwist);
+        ActionResult<AccountData> actual =zipBank.deposit(oliverTwist.getAccountData(),100);
+        Assert.assertEquals(true,actual.isSuccess());
+
     }
-}
+    @Test
+    public  void getAccountByIdTest() {
+        Bank zipBank = new Bank();
+        BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
+        zipBank.accounts.put(121,oliverTwist);
+        ActionResult<AccountData> actual =zipBank.getAccountById(oliverTwist.getAccountData().getId(),"1885");
+        Assert.assertEquals(true,actual.isSuccess());
+
+    }
+
+    @Test
+    public  void getAccountByIdInvalidTest() {
+        Bank zipBank = new Bank();
+        BasicAccount oliverTwist = new BasicAccount(new AccountData(121, "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
+        zipBank.accounts.put(121,oliverTwist);
+        ActionResult<AccountData> actual =zipBank.getAccountById(oliverTwist.getAccountData().getId(),"1111");
+        Assert.assertEquals("Invalid login credentials",actual.getErrorMessage());
+
+    }
+
+
+    }
