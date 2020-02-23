@@ -13,39 +13,42 @@ import java.util.Map;
  */
 public class Bank {
 
-    public Map<Integer, Account> accounts = new HashMap<>();
-
+    public Map<String, Account> accounts = new HashMap<>();
 
     public Bank() {
 
-        String[] premiumUserName = {
-                "Aarti Kansal", "Adam Bennet", "April Howard", "Chip Fody", "Chris Farmer", "Corey Williams",
-                "David Comer", "David Kelly", "Destiny Bond", "Emily Beech", "Giles Bradford", "Greg Davis",
-                "Han Lin", "James Churu", "James Wilkinson"
-        };
-
-        for (int i = 0; i < 15; i++) {
-            this.accounts.put(i, new PremiumAccount(new AccountData(i, premiumUserName[i], premiumUserName[i].split(" ")[0] + "@zipcode.com", 1000.00, "1234")));
-        }
-
-        String[] basicUserName = {
+        String[] studentNames = {
+                "Aarti Kansal", "Adam Bennet", "April Howard", "Chip Fody", "Chris Farmer",
+                "Corey Williams", "David Comer", "David Kelly", "Destiny Bond", "Emily Beech",
+                "Giles Bradford", "Greg Davis", "Han Lin", "James Churu", "James Wilkinson",
                 "Jeremy McCray", "Kevin Romero", "Khalil Crumpler", "Leila Hsiao", "Matthew Ascone",
-                "Maurice Russ", "Moe Aydin", "Raheel Uppal", "Sandeep Narayana Mangalam",
-                "Sandy Setiawan", "Ujjwal Shrestha", "Von Le", "Zanetta Norris", "Zeth Kane"
+                "Maurice Russ", "Moe Aydin", "Raheel Uppal", "Sandeep Mangalam", "Sandy Setiawan",
+                "Ujjwal Shrestha", "Von Le", "Zanetta Norris", "Zeth Kane"
+        };
+        String[] instructorNames = {
+                "Kris Younger", "Roberto DeDeus", "Christopher Nobles"
         };
 
-        int counter = 0;
-        for (int i = 15; i < 29; i++) {
-            accounts.put(i, new BasicAccount(new AccountData(i, basicUserName[counter], basicUserName[counter].split(" ")[0] + "@zipcode.com", 100.00, "1234")));
-            counter++;
+        for(String s : studentNames) {
+            String accountId = generateID(s);
+            this.accounts.put(accountId, new BasicAccount(new AccountData(accountId, s, accountId + "@zipcode.com", 100.00, "1234")));
         }
+        for(String i : instructorNames) {
+            String accountId = generateID(i);
+            this.accounts.put(accountId, new PremiumAccount(new AccountData(accountId, i, accountId + "@zipcode.com", 100.00, "1234")));
+        }
+    }
 
+
+    public static String generateID(String name){
+        String[] nameArray = name.split(" ");
+        return (nameArray[0].charAt(0) + nameArray[1]).toLowerCase();
     }
 
     public ActionResult<AccountData> login(String id, String pin) {
         Account account;
         try {
-            account = accounts.get(Integer.parseInt(id));
+            account = accounts.get(id);
         }catch(Exception e){
             return ActionResult.fail("Invalid input!");
         }
@@ -85,9 +88,7 @@ public class Bank {
 
         if (amount < 0) {
             return ActionResult.fail("Withdraw failed: Negative input not allowed.");
-//        } else if ( (!account.isPremium()) && (accountData.getBalance() - amount <= 0) || (account.isPremium()) && (accountData.getBalance() - amount >= -100)) {
-//           return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
-        }else if (account.isPremium() && (amount > account.getBalance())) {
+       }else if (account.getAccountData().isPremium() && (amount > account.getBalance())) {
             if(account.canWithdraw(amount)){
                 account.withdraw(amount);
                 return ActionResult.successWithMessage("Overdraft Warning!",account.getAccountData());
@@ -99,12 +100,16 @@ public class Bank {
         }
         account.withdraw(amount);
         return ActionResult.success(account.getAccountData());
-        //return ActionResult.fail("Withdraw failed: " + amount + ".Account has: " + new DecimalFormat("#.00").format(account.getBalance()));
     }
 
     public ActionResult<AccountData> createAccount(String fullName, String email, String pin) {
-        AccountData accData = new AccountData(accounts.size(), fullName, email, 100.00, pin );
-        accounts.put(accounts.size(), new BasicAccount(accData));
-        return ActionResult.success(accData);
+        if(fullName.isEmpty() || email.isEmpty() || pin.isEmpty()){
+            return ActionResult.fail("Some fields are empty!");
+        }else {
+            String id = generateID(fullName);
+            AccountData accData = new AccountData(id, fullName, email, 100.00, pin);
+            accounts.put(id, new BasicAccount(accData));
+            return ActionResult.success(accData);
+        }
     }
 }
