@@ -13,6 +13,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import rocks.zipcode.atm.bank.PremiumAccount;
+import sun.security.util.Password;
 
 import javax.swing.*;
 import java.text.DecimalFormat;
@@ -264,9 +265,7 @@ public class CashMachineApp extends Application {
         TextField firstNameField = new TextField();
         TextField lastNameField = new TextField();
         TextField emailField = new TextField();
-        TextField initialDepositField = new TextField();
-        TextField setPinField = new TextField();
-        TextField premiumOrBasicField = new TextField();
+        PasswordField setPinField = new PasswordField();
 
         singUpInstructions.setId("signUpInstructions");
         finishBT.setId("loginBT");
@@ -284,10 +283,9 @@ public class CashMachineApp extends Application {
 
         // :: action events for withdraw button which creates pop-up :: //
         finishBT.setOnAction(e -> {
-            //check for basic or premium
-            //if (premiumOrBasicField.getText().toLowerCase().equals("premium"){
-                //add basic account
-                //cashMachine.getBank().createAccount((cashMachine.getBank().accounts.size(), new PremiumAccount(new AccountData(cashMachine.getBank().accounts.size(), firstNameField.getText() + " " + lastNameField.getText(), emailField.getText().split(" ")[0] + "@zipcode.com", Double.parseDouble(initialDepositField.getText()), setPinField.getText()))
+            cashMachine.createAccount( firstNameField.getText() + " " + lastNameField.getText(), emailField.getText(),  setPinField.getText());
+            vbox.getChildren().clear();         //wash out everything on the screen
+            vbox.getChildren().add(loginGrid);  //bring the login panel back
             });
 
         Label firstNameLabel = new Label("First Name");

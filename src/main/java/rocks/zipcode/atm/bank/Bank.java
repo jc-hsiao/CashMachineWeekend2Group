@@ -35,7 +35,7 @@ public class Bank {
         };
 
         int counter = 0;
-        for (int i = 16; i < 29; i++) {
+        for (int i = 15; i < 29; i++) {
             accounts.put(i, new BasicAccount(new AccountData(i, basicUserName[counter], basicUserName[counter].split(" ")[0] + "@zipcode.com", 100.00, "1234")));
             counter++;
         }
@@ -103,7 +103,7 @@ public class Bank {
     }
 
     public ActionResult<AccountData> createAccount(String fullName, String email, String pin) {
-        AccountData accData = new AccountData(accounts.size(), fullName, email, 0.00, pin );
+        AccountData accData = new AccountData(accounts.size(), fullName, email, 100.00, pin );
         accounts.put(accounts.size(), new BasicAccount(accData));
         return ActionResult.success(accData);
     }
