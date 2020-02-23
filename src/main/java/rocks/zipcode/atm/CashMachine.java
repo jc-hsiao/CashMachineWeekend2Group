@@ -79,6 +79,8 @@ public class CashMachine {
                 T data = result.getData();
                 specialMessage = result.getSpecialMessage();
                 errorMessage = result.getErrorMessage();
+                if(specialMessage != null)
+                    System.out.println("Special: " + specialMessage);
                 postAction.accept(data);
             } else {
                 String errorMessage = result.getErrorMessage();
