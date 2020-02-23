@@ -12,6 +12,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.text.DecimalFormat;
+
 /**
  * @author ZipCodeWilmington
  */
@@ -75,7 +77,7 @@ public class CashMachineApp extends Application {
                 //userName = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getName();
                 //balance = cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().getBalance();
                 greetTxt.setText("Hello! "+cashMachine.getCurrentUser().getName());
-                balanceNum.setText("$" + cashMachine.getCurrentUser().getBalance());
+                balanceNum.setText("$" + new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
             }
 
             //check if the balance of this user is kinda low, if it is, set the balance text to red
@@ -183,7 +185,7 @@ public class CashMachineApp extends Application {
             //balanceNum.setText("$"+cashMachine.getCurrentUser());
             //cashMachine.withdraw(Double.parseDouble(moneyField.getText()));
             cashMachine.withdraw(moneyField.getText());
-            balanceNum.setText("$"+cashMachine.getCurrentUser().getBalance());
+            balanceNum.setText("$"+ new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
 
             if(cashMachine.getCurrentUser().getBalance() <= tooLow)
                 balanceNum.setId("balanceNum-danger"); //this will make balance red if it's low
@@ -218,7 +220,7 @@ public class CashMachineApp extends Application {
             //cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData().setBalance(balance);
             //cashMachine.getBank().deposit(cashMachine.getBank().accounts.get(cashMachine.getCurrentUser()).getAccountData(), Double.parseDouble(moneyField.getText()));
             cashMachine.deposit(moneyField.getText());
-            balanceNum.setText("$"+cashMachine.getCurrentUser().getBalance());
+            balanceNum.setText("$"+new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
             if(cashMachine.getCurrentUser().getBalance() > tooLow)
                 balanceNum.setId("balanceNum");
             oops2.setText(cashMachine.getErrorMessage());
