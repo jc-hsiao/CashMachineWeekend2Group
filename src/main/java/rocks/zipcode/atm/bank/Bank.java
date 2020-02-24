@@ -19,7 +19,7 @@ public class Bank {
     public Bank() {
 
         String[] studentNames = {
-                "Aarti Kansal", "Adam Bennet", "April Howard", "Chip Fody", "Chris Farmer",
+                "Aarti Kansal", "Adam Bennett", "April Howard", "Chip Fody", "Chris Farmer",
                 "Corey Williams", "David Comer", "David Kelly", "Destiny Bond", "Emily Beech",
                 "Giles Bradford", "Greg Davis", "Han Lin", "James Churu", "James Wilkinson",
                 "Jeremy McCray", "Kevin Romero", "Khalil Crumpler", "Leila Hsiao", "Matthew Ascone",
