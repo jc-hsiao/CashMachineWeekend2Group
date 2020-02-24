@@ -66,6 +66,22 @@ GridPane{
     -fx-padding: 0px 10px;
 }
 
+#balanceNumPrem{
+    -fx-font-size: 26px;
+    -fx-background-color:linear-gradient(#91690b, goldenrod);
+    -fx-text-fill: white;
+    -fx-font-family: "Courier New", Courier, monospace;
+    -fx-padding: 0px 10px;
+}
+
+#balanceNumPrem-danger{
+    -fx-font-size: 26px;
+    -fx-background-color: linear-gradient(#91690b, goldenrod);
+    -fx-text-fill: #a6090b;
+    -fx-font-family: "Courier New", Courier, monospace;
+    -fx-padding: 0px 10px;
+}
+
 #wBT,#dBT{
     -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
     -fx-font-weight: bold;
@@ -78,13 +94,6 @@ GridPane{
     -fx-background-color: rgba(255,255,255,0.0);
 }
 
-/*
-#greetTxt{
-    -fx-font: 25px "Arial Black", Gadget, sans-serif;
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.8) , 0,0,0,1 );
-    -fx-fill: linear-gradient(from 0% 0% to 100% 100%, repeat, darkslategrey 0%, seagreen 50%);
-}
-*/
 
 #greetTxt{
     -fx-font: 25px "Arial Black", Gadget, sans-serif;
@@ -118,4 +127,9 @@ GridPane{
     -fx-font-size: 30px;
     -fx-padding: 10px;
     -fx-font-family: "Courier New", Courier, monospace;
+}
+
+#signUpInstructions{
+    -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
+    -fx-font-weight: bold;
 }

@@ -106,7 +106,7 @@ public class Bank {
             return ActionResult.fail("Some fields are empty!");
         }else {
             String id = generateID(fullName);
-            AccountData accData = new AccountData(id, fullName, email, 100.00, pin);
+            AccountData accData = new AccountData(id, fullName, email, 0.00, pin);
             accounts.put(id, new BasicAccount(accData));
             return ActionResult.success(accData);
         }
