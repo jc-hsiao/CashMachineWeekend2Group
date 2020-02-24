@@ -35,96 +35,93 @@ public class BankTest {
     }
 
     @Test
+    public void loginTest(){
+        Bank zipBank = new Bank();
+        AccountData kris = zipBank.getAccountData("kyounger");
+        ActionResult<AccountData> actual = zipBank.login(kris.getId(),kris.getPin());
+        Assert.assertTrue(actual.isSuccess());
+    }
+
+    @Test
+    public void loginTest2(){
+        Bank zipBank = new Bank();
+        AccountData kris = zipBank.getAccountData("kyounger");
+        ActionResult<AccountData> actual = zipBank.login(kris.getId(),"9876");
+        Assert.assertEquals("Invalid login!", actual.getErrorMessage());
+    }
+
+    @Test
     public void depositEmptyFieldTest(){
         Bank zipBank = new Bank();
-        AccountData someData = zipBank.getAccount("kyounger");
-        ActionResult<AccountData> actual = zipBank.deposit( someData ,null);
+        AccountData kris = zipBank.getAccountData("kyounger");
+        ActionResult<AccountData> actual = zipBank.deposit( kris ,null);
         Assert.assertEquals("Deposit failed: Invalid input!", actual.getErrorMessage());
     }
 
     @Test
     public void withdrawEmptyFieldTest(){
         Bank zipBank = new Bank();
-        AccountData someData = zipBank.getAccount("kyounger");
-        ActionResult<AccountData> actual = zipBank.withdraw(someData ,null);
+        AccountData kris = zipBank.getAccountData("kyounger");
+        ActionResult<AccountData> actual = zipBank.withdraw( kris ,null);
         Assert.assertEquals("Withdraw failed: Invalid input!", actual.getErrorMessage());
     }
 
+
     @Test
-    public void withdrawTestPremiumOverDraft() {
+    public void withdrawPremiumUserOverDraftTest() {
         Bank zipBank = new Bank();
-        PremiumAccount billGates = new PremiumAccount(new AccountData("123", "William Gates", "moe.money@gatesestate.com", 1000.00, "9999"));
-        zipBank.accounts.put("123", billGates);
-        ActionResult<AccountData> actual = zipBank.withdraw(billGates.getAccountData(), "1099");
+        AccountData kris = zipBank.getAccountData("kyounger");
+        ActionResult<AccountData> actual = zipBank.withdraw(kris, "120.5");
         Assert.assertEquals("Overdraft Warning!", actual.getSpecialMessage());
-        Assert.assertEquals(billGates.getAccountData(), actual.getData());
     }
+
     @Test
-    public void withdrawTestBasicOverDraft() {
+    public void withdrawOverDraftFailedTest() {
         Bank zipBank = new Bank();
-        BasicAccount oliverTwist = new BasicAccount(new AccountData("121", "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 1.00, "1885"));
-        zipBank.accounts.put("121", oliverTwist);
-        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), "1099");
+        AccountData kris = zipBank.getAccountData("kyounger");
+        ActionResult<AccountData> actual = zipBank.withdraw(kris, "205");
+        Assert.assertEquals("Withdraw failed: Exceed overdraft limit.", actual.getErrorMessage());
+    }
+
+    @Test
+    public void withdrawBasicUserOverDraftTest() {
+        Bank zipBank = new Bank();
+        AccountData david = zipBank.getAccountData("dcomer");
+        ActionResult<AccountData> actual = zipBank.withdraw(david, "120.5");
         Assert.assertEquals("Withdraw failed: Balance not enough.", actual.getErrorMessage());
     }
+
     @Test
-    public void withdrawNegativeTestBasicOverDraft() {
+    public void withdrawNegativeInputTest() {
         Bank zipBank = new Bank();
-        BasicAccount oliverTwist = new BasicAccount(new AccountData("121", "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        zipBank.accounts.put("121", oliverTwist);
-        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), "98");
-        Assert.assertEquals("Withdraw failed: Balance not enough.", actual.getErrorMessage());
-    }
-    @Test
-    public void withdrawNegativeTestPremiumOverDraft() {
-        Bank zipBank = new Bank();
-        BasicAccount oliverTwist = new BasicAccount(new AccountData("121", "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        zipBank.accounts.put("121", oliverTwist);
-        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), "101");
-        Assert.assertEquals("Withdraw failed: Balance not enough.", actual.getErrorMessage());
-    }
-    @Test
-    public void withdrawNegativeTest() {
-        Bank zipBank = new Bank();
-        BasicAccount oliverTwist = new BasicAccount(new AccountData("121", "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        zipBank.accounts.put("121", oliverTwist);
-        ActionResult<AccountData> actual = zipBank.withdraw(oliverTwist.getAccountData(), "-101");
+        AccountData david = zipBank.getAccountData("dcomer");
+        ActionResult<AccountData> actual = zipBank.withdraw(david, "-20");
         Assert.assertEquals("Withdraw failed: Negative input not allowed.", actual.getErrorMessage());
     }
+
     @Test
-    public void depositNegativeTest() {
+    public void withdrawTest() {
         Bank zipBank = new Bank();
-        BasicAccount oliverTwist = new BasicAccount(new AccountData("121", "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        zipBank.accounts.put("121", oliverTwist);
-        ActionResult<AccountData> actual = zipBank.deposit(oliverTwist.getAccountData(), "-101");
+        AccountData david = zipBank.getAccountData("dcomer");
+        ActionResult<AccountData> actual = zipBank.withdraw(david, "50");
+        Assert.assertTrue(actual.isSuccess());
+    }
+
+    @Test
+    public void depositNegativeInputTest() {
+        Bank zipBank = new Bank();
+        AccountData david = zipBank.getAccountData("dcomer");
+        ActionResult<AccountData> actual = zipBank.deposit(david, "-20");
         Assert.assertEquals("Deposit failed: Negative input not allowed.", actual.getErrorMessage());
     }
+
     @Test
-    public  void updateTest() {
+    public void depositTest() {
         Bank zipBank = new Bank();
-        BasicAccount oliverTwist = new BasicAccount(new AccountData("121", "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        zipBank.accounts.put("121",oliverTwist);
-        ActionResult<AccountData> actual = zipBank.deposit(oliverTwist.getAccountData(),"100");
-        Assert.assertEquals(true,actual.isSuccess());
-
-    }
-    @Test
-    public  void getAccountByIdTest() {
-        Bank zipBank = new Bank();
-        BasicAccount oliverTwist = new BasicAccount(new AccountData("121", "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        zipBank.accounts.put("121",oliverTwist);
-        ActionResult<AccountData> actual =zipBank.login(oliverTwist.getAccountData().getId()+"","1885");
-        Assert.assertEquals(true,actual.isSuccess());
-    }
-    @Test
-    public  void getAccountByIdInvalidTest() {
-        Bank zipBank = new Bank();
-        BasicAccount oliverTwist = new BasicAccount(new AccountData("121", "Ollie Spin", "bill.sikes.sucks@canterbury.gov", 0.0, "1885"));
-        zipBank.accounts.put("121",oliverTwist);
-        ActionResult<AccountData> actual =zipBank.login(oliverTwist.getAccountData().getId()+"","1111");
-        Assert.assertEquals("Invalid login!",actual.getErrorMessage());
-
+        AccountData david = zipBank.getAccountData("dcomer");
+        ActionResult<AccountData> actual = zipBank.deposit(david, "200");
+        Assert.assertTrue(actual.isSuccess());
     }
 
 
-    }
+}

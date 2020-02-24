@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Bank {
 
-    public Map<String, Account> accounts = new HashMap<>();
+    private Map<String, Account> accounts = new HashMap<>();
 
     public Bank() {
 
@@ -39,7 +39,7 @@ public class Bank {
         }
     }
 
-    public AccountData getAccount(String Id){
+    public AccountData getAccountData(String Id){
         return accounts.get(Id).getAccountData();
     }
 
@@ -92,7 +92,7 @@ public class Bank {
                 account.withdraw(amount);
                 return ActionResult.successWithMessage("Overdraft Warning!",account.getAccountData());
             }else{
-                return ActionResult.fail("Withdraw failed: Balance not enough.");
+                return ActionResult.fail("Withdraw failed: Exceed overdraft limit.");
             }
         }else if(!account.canWithdraw(amount)){
             return ActionResult.fail("Withdraw failed: Balance not enough.");
