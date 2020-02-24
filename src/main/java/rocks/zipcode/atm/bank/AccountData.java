@@ -5,13 +5,15 @@ package rocks.zipcode.atm.bank;
  */
 public final class AccountData {
 
-    private final int id;
+    private final String id;
     private final String name;
     private final String email;
-    private final int balance;
-    protected final int pin;
+    private Double balance;
+    protected final String pin;
+    private boolean isPremium;
 
-    AccountData(int id, String name, String email, int balance, int pin) {
+
+    AccountData(String id, String name, String email, Double balance, String pin) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -19,7 +21,7 @@ public final class AccountData {
         this.pin = pin;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -31,11 +33,19 @@ public final class AccountData {
         return email;
     }
 
-    public int getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public int getPin() {return pin;}
+    public String getPin() {return pin;}
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    protected void setPremium() {
+        isPremium = true;
+    }
 
     @Override
     public String toString() {

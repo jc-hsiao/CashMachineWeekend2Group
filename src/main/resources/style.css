@@ -1,0 +1,135 @@
+.root {
+    -fx-background-image: url("wood.jpg");
+}
+
+#header {
+    -fx-font: 28px "Arial Black", Gadget, sans-serif;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.8) , 0,0,0,1 );
+    -fx-fill: linear-gradient(from 0% 0% to 100% 100%, repeat, darkslategrey 0%, seagreen 50%);
+}
+GridPane{
+    /*-fx-background-color: rgba(255,255,255,0.7) ;*/
+    -fx-background-color: linear-gradient(to bottom right,rgba(255,255,255,0.8),rgba(225,200,190,0.7));
+    -fx-background-radius: 10;
+    -fx-border-style: solid inside;
+    -fx-border-color: #fff;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.3) , 5, 0.0 , 0 , 1 );
+}
+
+#premGrid{
+    -fx-background-color: linear-gradient(#ffffe7 2%, #a88a6e 25%, #f4d15f 100%);
+}
+
+#loginBT{
+    -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
+    -fx-text-fill: #fff;
+    -fx-padding: 8px 20px;
+}
+.button{
+    -fx-background-color: linear-gradient(seagreen,darkslategrey);
+    -fx-text-fill: #fff;
+}
+.button:hover{
+    -fx-background-color: linear-gradient(goldenrod, #91690b);
+}
+.button:pressed{
+    -fx-background-color: linear-gradient(goldenrod, #91690b);
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
+
+}
+.button:disabled{
+    -fx-background-color: darkgrey;
+    -fx-text-fill: grey;
+    -fx-opacity: 1.0 ;
+}
+
+
+.label{
+    -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#balanceNum{
+    -fx-font-size: 26px;
+    -fx-background-color:black;
+    -fx-text-fill: white;
+    -fx-font-family: "Courier New", Courier, monospace;
+    -fx-padding: 0px 10px;
+}
+
+#balanceNum-danger{
+    -fx-font-size: 26px;
+    -fx-background-color: black;
+    -fx-text-fill: #f80000;
+    -fx-font-family: "Courier New", Courier, monospace;
+    -fx-padding: 0px 10px;
+}
+
+#balanceNumPrem{
+    -fx-font-size: 26px;
+    -fx-background-color:linear-gradient(#543a20, goldenrod);
+    -fx-text-fill: white;
+    -fx-font-family: "Courier New", Courier, monospace;
+    -fx-padding: 0px 10px;
+}
+
+#balanceNumPrem-danger{
+    -fx-font-size: 26px;
+    -fx-background-color: linear-gradient(#543a20, goldenrod);
+    -fx-text-fill: #a6090b;
+    -fx-font-family: "Courier New", Courier, monospace;
+    -fx-padding: 0px 10px;
+}
+
+#wBT,#dBT{
+    -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
+    -fx-font-weight: bold;
+}
+#outBT{
+    -fx-underline: true;
+    -fx-font: 14px "Trebuchet MS", Helvetica, sans-serif;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(255,255,255,0.0);
+}
+
+
+#greetTxt{
+    -fx-font: 25px "Arial Black", Gadget, sans-serif;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.8) , 0,0,0,1 );
+    -fx-fill: #323232;
+}
+
+#greetTxtPremium{
+    -fx-font: 25px "Arial Black", Gadget, sans-serif;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.8) , 0,0,0,1 );
+    -fx-fill: linear-gradient(to top right, #724f2b 0%, #ceae55 60%,#724f2b 100%);
+
+}
+
+
+#balanceTxt{
+    -fx-font: 15px "Arial Black", Gadget, sans-serif;
+}
+
+#warning{
+    -fx-font: 14px "Trebuchet MS", Helvetica, sans-serif;
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 0,0,0,0 );
+
+}
+#moneyVBox{
+    -fx-background-color: white;
+}
+#moneyField{
+    -fx-font-size: 30px;
+    -fx-padding: 10px;
+    -fx-font-family: "Courier New", Courier, monospace;
+}
+
+#signUpInstructions{
+    -fx-font: 13px "Trebuchet MS", Helvetica, sans-serif;
+    -fx-font-weight: bold;
+}

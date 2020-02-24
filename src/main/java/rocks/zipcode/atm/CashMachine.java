@@ -5,14 +5,30 @@ import rocks.zipcode.atm.bank.Bank;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author ZipCodeWilmington
  */
 public class CashMachine {
-
+    private String errorMessage = "";
     private final Bank bank;
     private AccountData accountData = null;
+    private String specialMessage = "";
+    private static final Logger LOGGER = Logger.getLogger(CashMachine.class.getName());
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public String getSpecialMessage() {
+        return specialMessage;
+    }
+
+    public AccountData getCurrentUser() {
+        return accountData;
+    }
 
     public CashMachine(Bank bank) {
         this.bank = bank;
@@ -22,29 +38,33 @@ public class CashMachine {
         accountData = data;
     };
 
-    public void login(int id) {
+
+    public void login(String id, String pin) {
         tryCall(
-                () -> bank.getAccountById(id),
+                () -> bank.login(id,pin),
                 update
         );
     }
 
-    public void deposit(int amount) {
-        if (accountData != null) {
-            tryCall(
-                    () -> bank.deposit(accountData, amount),
-                    update
-            );
-        }
+    public void deposit(String amount) {
+        tryCall(
+                () -> bank.deposit(accountData, amount),
+                update
+        );
     }
 
-    public void withdraw(int amount) {
-        if (accountData != null) {
-            tryCall(
+    public void withdraw(String amount) {
+        tryCall(
                     () -> bank.withdraw(accountData, amount),
                     update
-            );
-        }
+        );
+    }
+
+    public void createAccount(String fullName, String email, String pin) {
+        tryCall(
+                () -> bank.createAccount(fullName, email, pin),
+                update
+        );
     }
 
     public void exit() {
@@ -53,23 +73,29 @@ public class CashMachine {
         }
     }
 
-    @Override
-    public String toString() {
-        return accountData != null ? accountData.toString() : "Try account 1000 or 2000 and click submit.";
+    public String getErrorMessage(){
+        return this.errorMessage;
     }
+
+
 
     private <T> void tryCall(Supplier<ActionResult<T> > action, Consumer<T> postAction) {
         try {
             ActionResult<T> result = action.get();
             if (result.isSuccess()) {
                 T data = result.getData();
+                specialMessage = result.getSpecialMessage();
+                errorMessage = result.getErrorMessage();
+                if(specialMessage != null)
+                    LOGGER.log(Level.INFO,"[Special] " + specialMessage);
                 postAction.accept(data);
             } else {
                 String errorMessage = result.getErrorMessage();
                 throw new RuntimeException(errorMessage);
             }
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            LOGGER.log(Level.WARNING,"[Error] " + e.getMessage());
+            errorMessage = e.getMessage();
         }
     }
 }

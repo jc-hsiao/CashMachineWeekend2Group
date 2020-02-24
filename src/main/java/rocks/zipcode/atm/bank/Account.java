@@ -4,7 +4,6 @@ package rocks.zipcode.atm.bank;
  * @author ZipCodeWilmington
  */
 public abstract class Account {
-    boolean isPremium;
 
     private AccountData accountData;
 
@@ -16,33 +15,24 @@ public abstract class Account {
         return accountData;
     }
 
-    public void deposit(int amount) {
+    public void deposit(double amount) {
         updateBalance(getBalance() + amount);
     }
 
-    public boolean withdraw(int amount) {
-        if (canWithdraw(amount)) {
-            updateBalance(getBalance() - amount);
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public void withdraw(double amount) { updateBalance(getBalance() - amount); }
 
-    protected boolean canWithdraw(int amount) {
-        if(this.isPremium == true) {
-            return getBalance() >= amount - 100;
-        } else {
-            return getBalance() >= amount;
-        }
-    }
+    protected boolean canWithdraw(double amount) { return getBalance() >= amount; }
 
-    public int getBalance() {
+    public Double getBalance() {
         return accountData.getBalance();
     }
 
-    private void updateBalance(int newBalance) {
+
+    private void updateBalance(Double newBalance) {
+        boolean prem = accountData.isPremium();
         accountData = new AccountData(accountData.getId(), accountData.getName(), accountData.getEmail(),
                 newBalance, accountData.getPin());
+        if(prem)
+            accountData.setPremium();
     }
 }
