@@ -1,12 +1,12 @@
 //fake merge test
 package rocks.zipcode.atm.bank;
-
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import rocks.zipcode.atm.ActionResult;
+import rocks.zipcode.atm.CashMachine;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author ZipCodeWilmington
@@ -14,6 +14,7 @@ import java.util.Map;
 public class Bank {
 
     private Map<String, Account> accounts = new HashMap<>();
+    private static final Logger LOGGER = Logger.getLogger(CashMachine.class.getName());
 
     public Bank() {
 
@@ -35,7 +36,7 @@ public class Bank {
         }
         for(String i : instructorNames) {
             String accountId = generateID(i);
-            this.accounts.put(accountId, new PremiumAccount(new AccountData(accountId, i, accountId + "@zipcode.com", 100.00, "1234")));
+            this.accounts.put(accountId, new PremiumAccount(new AccountData(accountId, i, accountId + "@zipcode.com", 300.00, "1234")));
         }
     }
 
@@ -52,6 +53,7 @@ public class Bank {
         Account account = accounts.get(id);
 
         if (account != null && pin.equals(account.getAccountData().getPin())) {
+            LOGGER.log(Level.INFO, "\n"+account.getAccountData().toString());
             return ActionResult.success(account.getAccountData());
         } else {
             return ActionResult.fail("Invalid login!");

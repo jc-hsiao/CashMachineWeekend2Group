@@ -39,7 +39,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         AccountData kris = zipBank.getAccountData("kyounger");
         ActionResult<AccountData> actual = zipBank.login(kris.getId(),kris.getPin());
-        Assert.assertTrue(actual.isSuccess());
+        Assert.assertEquals(kris,actual.getData());
     }
 
     @Test
@@ -104,7 +104,8 @@ public class BankTest {
         Bank zipBank = new Bank();
         AccountData david = zipBank.getAccountData("dcomer");
         ActionResult<AccountData> actual = zipBank.withdraw(david, "50");
-        Assert.assertTrue(actual.isSuccess());
+        Assert.assertEquals(50.0 ,actual.getData().getBalance(),0.01);
+
     }
 
     @Test
@@ -120,7 +121,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         AccountData david = zipBank.getAccountData("dcomer");
         ActionResult<AccountData> actual = zipBank.deposit(david, "200");
-        Assert.assertTrue(actual.isSuccess());
+        Assert.assertEquals(300.0 ,actual.getData().getBalance(),0.01);
     }
 
 
