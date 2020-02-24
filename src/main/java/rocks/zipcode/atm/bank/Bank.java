@@ -53,7 +53,9 @@ public class Bank {
         Account account = accounts.get(id);
 
         if (account != null && pin.equals(account.getAccountData().getPin())) {
-            LOGGER.log(Level.INFO, "\n"+account.getAccountData().toString());
+            LOGGER.log(Level.INFO, "\n=======LOGIN========\n"
+                                        +account.getAccountData().toString()+
+                                        "\n====================\n");
             return ActionResult.success(account.getAccountData());
         } else {
             return ActionResult.fail("Invalid login!");

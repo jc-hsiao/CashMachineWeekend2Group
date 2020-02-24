@@ -1,5 +1,5 @@
 .root {
-    -fx-background-image: url("woodBG.jpg");
+    -fx-background-image: url("wood.jpg");
 }
 
 #header {
@@ -68,7 +68,7 @@ GridPane{
 
 #balanceNumPrem{
     -fx-font-size: 26px;
-    -fx-background-color:linear-gradient(#91690b, goldenrod);
+    -fx-background-color:linear-gradient(#543a20, goldenrod);
     -fx-text-fill: white;
     -fx-font-family: "Courier New", Courier, monospace;
     -fx-padding: 0px 10px;
@@ -76,7 +76,7 @@ GridPane{
 
 #balanceNumPrem-danger{
     -fx-font-size: 26px;
-    -fx-background-color: linear-gradient(#91690b, goldenrod);
+    -fx-background-color: linear-gradient(#543a20, goldenrod);
     -fx-text-fill: #a6090b;
     -fx-font-family: "Courier New", Courier, monospace;
     -fx-padding: 0px 10px;

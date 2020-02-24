@@ -13,8 +13,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.text.DecimalFormat;
 
-// tell user their id when user sign up
-// tests
 
 /**
  * @author ZipCodeWilmington
@@ -52,20 +50,12 @@ public class CashMachineApp extends Application {
         else
             greetTxt.setId("greetTxt");
 
-        if(!cashMachine.getCurrentUser().isPremium()) {
-            //check if the balance of this user is kinda low, if it is, set the balance text to red
-            if (cashMachine.getCurrentUser().getBalance() > tooLow)
-                balanceNum.setId("balanceNum");
-            else
-                balanceNum.setId("balanceNum-danger");
-        }else{
-            //same thing as above but the background is golden
-            if (cashMachine.getCurrentUser().getBalance() > tooLow)
-                balanceNum.setId("balanceNumPrem");
-            else
-                balanceNum.setId("balanceNumPrem-danger");
+        //check if the balance of this user is kinda low, if it is, set the balance text to red
+        if (cashMachine.getCurrentUser().getBalance() > tooLow)
+            balanceNum.setId("balanceNum");
+        else
+            balanceNum.setId("balanceNum-danger");
 
-        }
     }
 
     //========= codes for the setting up login panel =========//
