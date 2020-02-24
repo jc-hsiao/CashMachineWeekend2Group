@@ -71,15 +71,17 @@ public class BankTest {
     public void withdrawPremiumUserOverDraftTest() {
         Bank zipBank = new Bank();
         AccountData kris = zipBank.getAccountData("kyounger");
-        ActionResult<AccountData> actual = zipBank.withdraw(kris, "120.5");
+        ActionResult<AccountData> actual = zipBank.withdraw(kris, "320.5");
         Assert.assertEquals("Overdraft Warning!", actual.getSpecialMessage());
+        Assert.assertEquals(-20.5,actual.getData().getBalance(),0.01);
+        Assert.assertNull(actual.getErrorMessage());
     }
 
     @Test
     public void withdrawOverDraftFailedTest() {
         Bank zipBank = new Bank();
         AccountData kris = zipBank.getAccountData("kyounger");
-        ActionResult<AccountData> actual = zipBank.withdraw(kris, "205");
+        ActionResult<AccountData> actual = zipBank.withdraw(kris, "405");
         Assert.assertEquals("Withdraw failed: Exceed overdraft limit.", actual.getErrorMessage());
     }
 
