@@ -27,7 +27,7 @@ public class Bank {
                 "Ujjwal Shrestha", "Von Le", "Zanetta Norris", "Zeth Kane"
         };
         String[] instructorNames = {
-                "Kris Younger", "Roberto DeDeus", "Christopher Nobles"
+                "Kris Younger", "Roberto DeDeus", "Christopher Nobles", "Dolio Durant"
         };
 
         for(String s : studentNames) {
