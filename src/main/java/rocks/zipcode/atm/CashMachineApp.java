@@ -13,8 +13,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.text.DecimalFormat;
 
-// tell user their id when user sign up
-// tests
 
 /**
  * @author ZipCodeWilmington
@@ -39,6 +37,25 @@ public class CashMachineApp extends Application {
         setUpMainGrid();
         setupSignUpGrid();
         vbox.getChildren().add(loginGrid);
+    }
+
+    //========= will get called whenever we want to update main grid =========//
+    public void updateMainGrid(){
+        greetTxt.setText("Hello! "+cashMachine.getCurrentUser().getName());
+        balanceNum.setText("$" + new DecimalFormat("0.00").format(cashMachine.getCurrentUser().getBalance()));
+
+        //make the greeting text gold if user is premium
+        if(cashMachine.getCurrentUser().isPremium())
+            greetTxt.setId("greetTxtPremium");
+        else
+            greetTxt.setId("greetTxt");
+
+        //check if the balance of this user is kinda low, if it is, set the balance text to red
+        if (cashMachine.getCurrentUser().getBalance() > tooLow)
+            balanceNum.setId("balanceNum");
+        else
+            balanceNum.setId("balanceNum-danger");
+
     }
 
     //========= codes for the setting up login panel =========//
@@ -71,29 +88,18 @@ public class CashMachineApp extends Application {
         // :: login button action events :: //
         loginBT.setOnAction(e -> {
             cashMachine.login(idField.getText(), passwordField.getText());
-
+            oops.setText("");
             if (cashMachine.getErrorMessage()!=null){
                 oops.setText(cashMachine.getErrorMessage());
             } else {
+                updateMainGrid();
                 vbox.getChildren().clear();
                 vbox.getChildren().add(mainGrid);
-                greetTxt.setText("Hello! "+cashMachine.getCurrentUser().getName());
-                balanceNum.setText("$" + new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
-
-                if(cashMachine.getCurrentUser().isPremium())
-                    greetTxt.setId("greetTxtPremium");
-                else
-                    greetTxt.setId("greetTxt");
-
-                //check if the balance of this user is kinda low, if it is, set the balance text to red
-                if(cashMachine.getCurrentUser().getBalance() > tooLow)
-                    balanceNum.setId("balanceNum");
-                else
-                    balanceNum.setId("balanceNum-danger");
             }
 
         });
         newAccountBT.setOnAction((e -> {
+            oops.setText("");
             vbox.getChildren().clear();
             vbox.getChildren().add(signUpGrid);
         }));
@@ -143,7 +149,7 @@ public class CashMachineApp extends Application {
         logOutBT.setId("outBT");
         oops.setId("warning");
 
-        balanceNum.setPrefSize(300,50);
+        balanceNum.setPrefSize(310,50);
         balanceNum.setAlignment(Pos.CENTER_RIGHT);
         withdrawBT.setPrefSize(90,50);
         depositBT.setPrefSize(90,50);
@@ -194,8 +200,7 @@ public class CashMachineApp extends Application {
             cashMachine.withdraw(moneyField.getText());
             balanceNum.setText("$"+ new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
 
-            if(cashMachine.getCurrentUser().getBalance() <= tooLow)
-                balanceNum.setId("balanceNum-danger"); //this will make balance red if it's low
+            updateMainGrid();
 
             //print special overdraft message "Overdraft warning!" if cashMachine has any special message
             if(cashMachine.getErrorMessage() != null)
@@ -225,8 +230,7 @@ public class CashMachineApp extends Application {
         doneInsert.setOnAction(e -> {
             cashMachine.deposit(moneyField.getText());
             balanceNum.setText("$"+new DecimalFormat("#.00").format(cashMachine.getCurrentUser().getBalance()));
-            if(cashMachine.getCurrentUser().getBalance() > tooLow)
-                balanceNum.setId("balanceNum");
+            updateMainGrid();
             oops.setText(cashMachine.getErrorMessage());
             moneyStage.close();
         });
@@ -245,6 +249,9 @@ public class CashMachineApp extends Application {
         //mainGrid.setGridLinesVisible(true);
     }
 
+
+
+    //========= codes for the setting up sign up panel =========//
     public void setupSignUpGrid(){
         signUpGrid.setId("grid");
         signUpGrid.setAlignment(Pos.CENTER);
@@ -252,6 +259,7 @@ public class CashMachineApp extends Application {
         signUpGrid.setVgap(5);
         signUpGrid.setPadding(new Insets(40,20,30,20));
 
+        Text signUpHeader = new Text("Sign Up");
         Text singUpInstructions = new Text("Enter new account information below:");
         Button finishBT = new Button("Finish");
         Button cancelBT = new Button("Cancel");
@@ -262,6 +270,7 @@ public class CashMachineApp extends Application {
         PasswordField setPinField = new PasswordField();
         Text oops = new Text();
 
+        signUpHeader.setId("header");
         singUpInstructions.setId("signUpInstructions");
         finishBT.setId("loginBT");
         cancelBT.setId("loginBT");
@@ -280,13 +289,15 @@ public class CashMachineApp extends Application {
             oops.setText("");
         });
 
-        // :: action events for withdraw button which creates pop-up :: //
         finishBT.setOnAction(e -> {
             cashMachine.createAccount( firstNameField.getText() + " " + lastNameField.getText(), emailField.getText(),  setPinField.getText());
+
             oops.setText(cashMachine.getErrorMessage());
             if(cashMachine.getErrorMessage() == null) {
+                cashMachine.login(cashMachine.getCurrentUser().getId(),cashMachine.getCurrentUser().getPin());
+                updateMainGrid();
                 vbox.getChildren().clear();         //wash out everything on the screen
-                vbox.getChildren().add(loginGrid);  //bring the login panel back
+                vbox.getChildren().add(mainGrid);  //bring the login panel back
                 firstNameField.setText("");
                 lastNameField.setText("");
                 emailField.setText("");
@@ -302,11 +313,12 @@ public class CashMachineApp extends Application {
         buttonHBox.getChildren().add(cancelBT);
         buttonHBox.getChildren().add(finishBT);
 
+        signUpGrid.add(signUpHeader,0,0);
+        signUpGrid.add(singUpInstructions,0,1,2,1);
         signUpGrid.add(firstNameLabel,0,2);
         signUpGrid.add(lastNameLabel,0,3);
         signUpGrid.add(emailLabel,0,4);
         signUpGrid.add(setPinLabel,0,5);
-        signUpGrid.add(singUpInstructions,1,1);
         signUpGrid.add(firstNameField,1,2);
         signUpGrid.add(lastNameField,1,3);
         signUpGrid.add(emailField,1,4);

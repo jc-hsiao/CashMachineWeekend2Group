@@ -39,7 +39,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         AccountData kris = zipBank.getAccountData("kyounger");
         ActionResult<AccountData> actual = zipBank.login(kris.getId(),kris.getPin());
-        Assert.assertTrue(actual.isSuccess());
+        Assert.assertEquals(kris,actual.getData());
     }
 
     @Test
@@ -71,15 +71,17 @@ public class BankTest {
     public void withdrawPremiumUserOverDraftTest() {
         Bank zipBank = new Bank();
         AccountData kris = zipBank.getAccountData("kyounger");
-        ActionResult<AccountData> actual = zipBank.withdraw(kris, "120.5");
+        ActionResult<AccountData> actual = zipBank.withdraw(kris, "320.5");
         Assert.assertEquals("Overdraft Warning!", actual.getSpecialMessage());
+        Assert.assertEquals(-20.5,actual.getData().getBalance(),0.01);
+        Assert.assertNull(actual.getErrorMessage());
     }
 
     @Test
     public void withdrawOverDraftFailedTest() {
         Bank zipBank = new Bank();
         AccountData kris = zipBank.getAccountData("kyounger");
-        ActionResult<AccountData> actual = zipBank.withdraw(kris, "205");
+        ActionResult<AccountData> actual = zipBank.withdraw(kris, "405");
         Assert.assertEquals("Withdraw failed: Exceed overdraft limit.", actual.getErrorMessage());
     }
 
@@ -104,7 +106,8 @@ public class BankTest {
         Bank zipBank = new Bank();
         AccountData david = zipBank.getAccountData("dcomer");
         ActionResult<AccountData> actual = zipBank.withdraw(david, "50");
-        Assert.assertTrue(actual.isSuccess());
+        Assert.assertEquals(50.0 ,actual.getData().getBalance(),0.01);
+
     }
 
     @Test
@@ -120,7 +123,7 @@ public class BankTest {
         Bank zipBank = new Bank();
         AccountData david = zipBank.getAccountData("dcomer");
         ActionResult<AccountData> actual = zipBank.deposit(david, "200");
-        Assert.assertTrue(actual.isSuccess());
+        Assert.assertEquals(300.0 ,actual.getData().getBalance(),0.01);
     }
 
 

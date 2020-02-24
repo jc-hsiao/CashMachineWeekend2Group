@@ -29,7 +29,10 @@ public abstract class Account {
 
 
     private void updateBalance(Double newBalance) {
+        boolean prem = accountData.isPremium();
         accountData = new AccountData(accountData.getId(), accountData.getName(), accountData.getEmail(),
                 newBalance, accountData.getPin());
+        if(prem)
+            accountData.setPremium();
     }
 }
