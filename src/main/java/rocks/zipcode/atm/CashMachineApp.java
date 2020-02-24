@@ -336,6 +336,7 @@ public class CashMachineApp extends Application {
         setUpUI();
         Scene scene = new Scene(vbox);
         stage.setScene(scene);
+        stage.setTitle("ZipCloudBank");
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         stage.show();
     }
